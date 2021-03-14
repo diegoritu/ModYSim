@@ -13,6 +13,24 @@ import sympy
     Para evaluar f(x,y): https://docs.sympy.org/latest/index.html (recordar instalar el módulo con pip antes de correr el código o importarlo)
 
 """
+root = Tk()
+root.geometry('800x600')
+root.title('Métodos')
+root.resizable(0,0)
+Label(root, text='Métodos', font = ('Lucida Bright',20), pady=20).pack()
+
+def btnEuler():
+    lblEuler = Label(root, text='Toqué Euler', font = ('Lucida Bright',15),padx=10)
+    lblEuler.pack()
+
+def btnEulerM():
+    lblEuler = Label(root, text='Toqué Euler Mejorado', font = ('Lucida Bright',15),padx=10)
+    lblEuler.pack()
+
+def btnRK():
+    lblEuler = Label(root, text='Toqué RK', font = ('Lucida Bright',15),padx=10)
+    lblEuler.pack()
+
 
 def euler(y0,x0,xf,function,N):
     
@@ -35,6 +53,20 @@ def euler(y0,x0,xf,function,N):
 
     print(fResult) 
 
+
+btnEuler = Button(root,text="Euler", font = ('Lucida Bright',15), command=btnEuler, padx=10)
+btnEuler.pack()
+btnEulerMejorado = Button(root,text="Euler Mejorado", font = ('Lucida Bright',15), command=btnEulerM, padx=10)
+btnEulerMejorado.pack()
+btnRK = Button(root,text="Runge Kutta", font = ('Lucida Bright',15), command=btnRK, padx=10)
+btnRK.pack()
+
+
+
+
+"""
+Por consola:
+
 x0 = float(input('x0= '))
 y0 = float(input('y0= '))
 xf = float(input('xf= '))
@@ -43,3 +75,7 @@ N = int(input('N= '))
 
 #euler(0.32,0.13,0.14,"sin(x)-ln(y)",4)
 euler(y0,x0,xf,function,N)
+
+"""
+
+root.mainloop()
