@@ -15,21 +15,19 @@ def euler(y0,x0,xf,function,N):
     y = y0
     x = x0
     h = (xf - x0) / N
-
-    rang = np.arange (x0, xf, h)
-    print (rang)
     
     fResult = {}
+    fResult[x] = y
+    expr = sympy.sympify(function)
+    xs = sympy.Symbol('x')
+    ys = sympy.Symbol('y')
+    f = sympy.lambdify((xs,ys),expr)
     
-    for k in rang:        
-        expr = sympy.sympify(function)
-        xs = sympy.Symbol('x')
-        ys = sympy.Symbol('y')
-        f = sympy.lambdify((xs,ys),expr)
-        functionEvaluated = f(x,y)
-        y = y + h * functionEvaluated
+    for k in range(N+1): 
+        x = x0 + k * h   
         fResult[x] = y
-        x = x0 + k * h
+        functionEvaluated = f(x,y)
+        y = y + h * functionEvaluated        
 
     print(fResult) 
 
@@ -37,7 +35,7 @@ x0 = float(input('x0= '))
 y0 = float(input('y0= '))
 xf = float(input('xf= '))
 function = input('function= ')
-N = float(input('N= '))
+N = int(input('N= '))
 
 #euler(0.32,0.13,0.14,"sin(x)-ln(y)",4)
 euler(y0,x0,xf,function,N)
