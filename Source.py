@@ -1,5 +1,9 @@
+from tkinter import *
+from tkinter import filedialog
+from tkinter import messagebox, font
 import numpy as np
 import sympy
+
 
 """
 
@@ -16,17 +20,17 @@ def euler(y0,x0,xf,function,N):
     x = x0
     h = (xf - x0) / N
     
-    fResult = {}
-    fResult[x] = y
-    expr = sympy.sympify(function)
-    xs = sympy.Symbol('x')
-    ys = sympy.Symbol('y')
-    f = sympy.lambdify((xs,ys),expr)
+    fResult = {} #Se crea un diccionario resultado que guarda x:y como clave:valor
+    fResult[x] = y #Se asigna manualmente x0:y0
+    expr = sympy.sympify(function) #Se guarda en expr la misma expresión que se introdujo en function, pero formateada como expresión de simpy
+    xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "x"
+    ys = sympy.Symbol('y') #Se le declara a sympy que existe una variable llamada "y"
+    f = sympy.lambdify((xs,ys),expr) #Sympy construye la función considerando x e y como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
     
-    for k in range(N+1): 
-        x = x0 + k * h   
-        fResult[x] = y
-        functionEvaluated = f(x,y)
+    for k in range(N+1): #Se recorre k desde 0 hasta N
+        x = x0 + k * h  
+        fResult[x] = y #Se asigna una nueva clave x:y en el diccionario resultado
+        functionEvaluated = f(x,y) #Se evalúa la función f (anteriormente dinamizada con lambdify) con los valores específicos de x e y
         y = y + h * functionEvaluated        
 
     print(fResult) 
