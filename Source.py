@@ -65,7 +65,31 @@ def euler(y0,x0,xf,function,N):
         return fResult
     except:
         messagebox.showerror("Métodos", "Error inesperado.")
- 
+
+def eulerMejorado(y0,x0,xf,function,N):    
+    try:
+        y = y0
+        x = x0
+        h = (xf - x0) / N
+        
+        fResult = {} #Se crea un diccionario resultado que guarda x:y como clave:valor
+        fResult[x] = y #Se asigna manualmente x0:y0
+        expr = sympy.sympify(function) #Se guarda en expr la misma expresión que se introdujo en function, pero formateada como expresión de simpy
+        xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "x"
+        ys = sympy.Symbol('y') #Se le declara a sympy que existe una variable llamada "y"
+        f = sympy.lambdify((xs,ys),expr) #Sympy construye la función considerando x e y como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
+        for k in range(N+1): #Se recorre k desde 0 hasta N
+            x = x0 + k * h  
+            fResult[x] = y #Se asigna una nueva clave x:y en el diccionario resultado
+            #f(x,y): Se evalúa la función f (anteriormente dinamizada con lambdify) con los valores específicos de x e y
+            yOriginal = y #guardo el valor de y actual para cuando tenga que hacer el recalculo
+            y = y + h * f(x,y) #predictor
+            y = yOriginal + (h/2) * (f(x,yOriginal) + f(x+h,y)) #corrector
+        return fResult
+    except:
+        messagebox.showerror("Métodos", "Error inesperado.")
+
+
 
 Label(root, text="Parámetros: ", font = ('Lucida Bright',15), padx=10).grid(row=1,column=0)
 
@@ -105,8 +129,7 @@ Button(parameters,text="Runge Kutta", font = ('Lucida Bright',15), command=btnRK
 
 
 
-"""
-Por consola:
+#Por consola:
 
 x0 = float(input('x0= '))
 y0 = float(input('y0= '))
@@ -115,8 +138,8 @@ function = input('function= ')
 N = int(input('N= '))
 
 #euler(0.32,0.13,0.14,"sin(x)-ln(y)",4)
-euler(y0,x0,xf,function,N)
+print(euler(y0,x0,xf,function,N))
+print(eulerMejorado(y0,x0,xf,function,N))
 
-"""
 
-root.mainloop()
+#root.mainloop()
