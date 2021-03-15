@@ -22,22 +22,60 @@ root.resizable(0,0)
 Label(root, text='Métodos', font = ('Lucida Bright',25), pady=20, padx=40).grid(row = 0, column=1)
 
 def inputIsValid(params):
+    
     for param in params:
-        if(re.match(r"(\+|\-)?\d+(,\d+)?$", param) is None):
-            return False        
-    return True
-            
+        try:
+            float(param)
+        except:
+            return False 
 
+        """
+        if(re.match(r"(\+|\-)?\d+(,\d+)?$", param) is None):
+            print(param)
+            return False
+        """
+    return True
+
+def nValid(n):
+    try:
+        int(n)
+    except:
+        return False 
+    return True
+
+def isMathFunction(function):
+    try:
+        expr = sympy.sympify(function) #Se guarda en expr la misma expresión que se introdujo en function, pero formateada como expresión de simpy
+        xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "x"
+        ys = sympy.Symbol('y') #Se le declara a sympy que existe una variable llamada "y"
+        sympy.lambdify((xs,ys),expr) #Sympy construye la función considerando x e y como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
+    except:
+        return False
+    return True
 
 def btnCalcular():  
+    yInicial = y0.get().replace(",",".")
+    xInicial = x0.get().replace(",",".")
+    xFinal = xf.get().replace(",",".")
+    functionFix = function.get().replace(",",".")
     print("HEY, ENTRÉ")  
-    params = [y0.get(),x0.get(),xf.get(),n.get()]
-    if(inputIsValid(params) and isinstance(n.get(),int)):
+    params = [yInicial,xInicial,xFinal,n.get()]
+    if(inputIsValid(params) and nValid(n.get()) and isMathFunction(functionFix)):
         print("HEY, SOY VALIDO")
-        fEuler = euler(float(y0.get()),float(x0.get()),float(xf.get()),function.get(),int(n.get()))      
-        print(fEuler)              
+        fEuler = euler(float(yInicial),float(xInicial),float(xFinal),functionFix,int(n.get()))
+        fEulerMejorado = eulerMejorado(float(yInicial),float(xInicial),float(xFinal),functionFix,int(n.get()))
+        fRungeKutta = rungeKutta(float(yInicial),float(xInicial),float(xFinal),functionFix,int(n.get()))
+
+        print(fEuler)
+        print(fEulerMejorado)              
+        print(fRungeKutta)              
+              
+    elif(not nValid(n.get())):
+        messagebox.showerror("Métodos", "N inválida.")
+    elif(not isMathFunction(function.get())):
+        messagebox.showerror("Métodos", "Función inválida.")
     else:
-            messagebox.showerror("Métodos", "Datos inválidos.")
+        messagebox.showerror("Métodos", "Datos inválidos. Por favor revise x0, xf e y0.")
 
 
 
@@ -154,6 +192,7 @@ Button(parameters,text="Runge Kutta", font = ('Lucida Bright',15), command=btnRK
 
 
 #Por consola:
+"""
 
 x0 = float(input('x0= '))
 y0 = float(input('y0= '))
@@ -162,9 +201,9 @@ function = input('function= ')
 N = int(input('N= '))
 
 #euler(0.32,0.13,0.14,"sin(x)-ln(y)",4)
+
 print(euler(y0,x0,xf,function,N))
 print(eulerMejorado(y0,x0,xf,function,N))
 print(rungeKutta(y0,x0,xf,function,N))
-
-
-#root.mainloop()
+"""
+root.mainloop()
