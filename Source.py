@@ -4,6 +4,7 @@ from tkinter import messagebox, font
 import numpy as np
 import sympy
 import re
+from matplotlib import pyplot as plt 
 
 
 """
@@ -66,9 +67,56 @@ def btnCalcular():
         fEulerMejorado = eulerMejorado(float(yInicial),float(xInicial),float(xFinal),functionFix,int(n.get()))
         fRungeKutta = rungeKutta(float(yInicial),float(xInicial),float(xFinal),functionFix,int(n.get()))
 
+
+
         print(fEuler)
         print(fEulerMejorado)              
-        print(fRungeKutta)              
+        print(fRungeKutta)
+
+        plt.title("Gráfico") 
+        plt.xlabel("Eje X") 
+        plt.ylabel("Eje Y") 
+        ejeXEuler = list(fEuler.keys())
+        ejeYEuler = list(fEuler.values())
+        ejeXEulerMejorado = list(fEulerMejorado.keys())
+        ejeYEulerMejorado = list(fEulerMejorado.values())
+        ejeXRungeKutta = list(fRungeKutta.keys())
+        ejeYRungeKutta = list(fRungeKutta.values())
+
+        tempXEuler = []
+        tempYEuler = []
+        tempXEulerMejorado = []
+        tempYEulerMejorado = []
+        tempXRungeKutta = []
+        tempYRungeKutta = []
+        primeraVez = True
+
+        for i in range(int(n.get())+1):
+            
+            tempXEuler.append(ejeXEuler[i])
+            tempYEuler.append(ejeYEuler[i])
+            tempXEulerMejorado.append(ejeXEulerMejorado[i])
+            tempYEulerMejorado.append(ejeYEulerMejorado[i])
+            tempXRungeKutta.append(ejeXRungeKutta[i])
+            tempYRungeKutta.append(ejeYRungeKutta[i])
+            
+            plt.scatter(tempXEuler, tempYEuler, color = "r")
+            plt.scatter(tempXEulerMejorado, tempYEulerMejorado, color = "g")
+            plt.scatter(tempXRungeKutta, tempYRungeKutta, color = "b")
+            plt.pause(0.80)
+            plt.plot(tempXEuler, tempYEuler, label = "Euler", color = "r")
+            plt.plot(tempXEulerMejorado, tempYEulerMejorado, label = "Euler Mejorado", color = "g") 
+            plt.plot(tempXRungeKutta, tempYRungeKutta, label = "Runge-Kutta", color = "b")
+            plt.pause(0.80)
+
+            if primeraVez:
+                plt.legend()
+                primeraVez = False
+
+        
+
+        plt.show()
+              
               
     elif(not nValid(n.get())):
         messagebox.showerror("Métodos", "N inválida.")
@@ -206,4 +254,5 @@ print(euler(y0,x0,xf,function,N))
 print(eulerMejorado(y0,x0,xf,function,N))
 print(rungeKutta(y0,x0,xf,function,N))
 """
+
 root.mainloop()
