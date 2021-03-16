@@ -19,7 +19,7 @@ root = Tk()
 root.geometry('800x600')
 root.title('Métodos')
 root.resizable(0,0)
-#Label(root, text="                    ").grid(row=0,column=0) #Espacio en pantalla
+#Label(root, text="").grid(row=0,column=0) #Espacio en pantalla
 Label(root, text='Métodos', font = ('Lucida Bright',25), pady=20, padx=40).grid(row = 0, column=1)
 
 def inputIsValid(params):
@@ -66,9 +66,7 @@ def btnCalcular():
         fEuler = euler(float(yInicial),float(xInicial),float(xFinal),functionFix,int(n.get()))
         fEulerMejorado = eulerMejorado(float(yInicial),float(xInicial),float(xFinal),functionFix,int(n.get()))
         fRungeKutta = rungeKutta(float(yInicial),float(xInicial),float(xFinal),functionFix,int(n.get()))
-
-
-
+        
         print(fEuler)
         print(fEulerMejorado)              
         print(fRungeKutta)
@@ -104,19 +102,19 @@ def btnCalcular():
             plt.scatter(tempXEulerMejorado, tempYEulerMejorado, color = "g")
             plt.scatter(tempXRungeKutta, tempYRungeKutta, color = "b")
             plt.pause(0.80)
-            plt.plot(tempXEuler, tempYEuler, label = "Euler", color = "r")
-            plt.plot(tempXEulerMejorado, tempYEulerMejorado, label = "Euler Mejorado", color = "g") 
-            plt.plot(tempXRungeKutta, tempYRungeKutta, label = "Runge-Kutta", color = "b")
+            plt.plot(tempXEuler, tempYEuler, label = "Euler", color = "r",linewidth=2)
+            plt.plot(tempXEulerMejorado, tempYEulerMejorado, label = "Euler Mejorado", color = "g",linewidth=2) 
+            plt.plot(tempXRungeKutta, tempYRungeKutta, label = "Runge-Kutta", color = "b",linewidth=2)
+            plt.grid()
             plt.pause(0.80)
-
+           
             if primeraVez:
                 plt.legend()
                 primeraVez = False
 
         
-
         plt.show()
-              
+    
               
     elif(not nValid(n.get())):
         messagebox.showerror("Métodos", "N inválida.")
@@ -128,7 +126,7 @@ def btnCalcular():
 
 
 
-
+#Algoritmo Euler
 def euler(y0,x0,xf,function,N):    
     try:
         y = y0
@@ -151,7 +149,7 @@ def euler(y0,x0,xf,function,N):
         return fResult
     except:
         messagebox.showerror("Métodos", "Error inesperado.")
-
+#Algoritmo Euler Mejorado
 def eulerMejorado(y0,x0,xf,function,N):    
     try:
         y = y0
@@ -171,10 +169,11 @@ def eulerMejorado(y0,x0,xf,function,N):
             yOriginal = y #guardo el valor de y actual para cuando tenga que hacer el recalculo
             y = y + h * f(x,y) #predictor
             y = yOriginal + (h/2) * (f(x,yOriginal) + f(x+h,y)) #corrector
+          
         return fResult
     except:
         messagebox.showerror("Métodos", "Error inesperado.")
-
+#Algoritmo Runge Kutta
 def rungeKutta(y0,x0,xf,function,N):    
     try:
         y = y0
@@ -224,7 +223,6 @@ function.grid(row=1,column=1, pady=5, padx=5)
 Label(parameters,text="N= ", font = ('Lucida Bright',10)).grid(row=1,column=2)
 n = Entry(parameters,width=10,borderwidth=5)
 n.grid(row=1,column=3, pady=5, padx=5)
-
 Button(parameters,text="Calcular", font = ('Lucida Bright',15), command=btnCalcular).grid(row=1,column=5)
 
 
