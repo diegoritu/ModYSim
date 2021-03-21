@@ -32,12 +32,21 @@ def inputIsValid(params):
 
     return True
 
-def nValid(n):
+def nValidOrhValid(n, h):
     try:
-        int(n)
+        if (n != ""):
+            int(n)
+        else:
+            float(h)
     except:
         return False 
     return True
+
+def nAndh(n, h):
+    if ((n != "" and h != "") or (n == "" and h == "")):
+        return True
+    else:
+        return False
 
 def isMathFunction(function):
     try:
@@ -54,13 +63,25 @@ def btnCalcular():
     tInicial = t0.get().replace(",",".")
     tFinal = tf.get().replace(",",".")
     functionFix = function.get().replace(",",".")
+    hIngresada = h.get().replace(",",".")
     print("HEY, ENTRÉ")  
-    params = [xInicial,tInicial,tFinal,n.get()]
-    if(inputIsValid(params) and nValid(n.get()) and isMathFunction(functionFix)):
+    params = [xInicial,tInicial,tFinal]
+    if(inputIsValid(params) and nValidOrhValid(n.get(), hIngresada) and isMathFunction(functionFix) and not nAndh(n.get(), hIngresada)):
         print("HEY, SOY VALIDO")
-        fEuler = euler(float(xInicial),float(tInicial),float(tFinal),functionFix,int(n.get()))
-        fEulerMejorado = eulerMejorado(float(xInicial),float(tInicial),float(tFinal),functionFix,int(n.get()))
-        fRungeKutta = rungeKutta(float(xInicial),float(tInicial),float(tFinal),functionFix,int(n.get()))
+        N = n.get()
+        if(n.get() != ""):
+            N = int(N)
+        else:
+            #Ingresa h en vez de N
+            N = int((float(tFinal) - float(tInicial)) / float(hIngresada))
+            print(N)
+
+
+
+
+        fEuler = euler(float(xInicial),float(tInicial),float(tFinal),functionFix,N)
+        fEulerMejorado = eulerMejorado(float(xInicial),float(tInicial),float(tFinal),functionFix,N)
+        fRungeKutta = rungeKutta(float(xInicial),float(tInicial),float(tFinal),functionFix,N)
         
         print(fEuler)
         print(fEulerMejorado)              
@@ -84,7 +105,7 @@ def btnCalcular():
         tempXRungeKutta = []
         primeraVez = True
 
-        for i in range(int(n.get())+1):
+        for i in range(N+1):
             
             tempTEuler.append(ejeTEuler[i])
             tempXEuler.append(ejeXEuler[i])
@@ -97,6 +118,7 @@ def btnCalcular():
             plt.scatter(tempTEuler, tempXEuler, color = "r")
             plt.scatter(tempTEulerMejorado, tempXEulerMejorado, color = "g")
             plt.scatter(tempTRungeKutta, tempXRungeKutta, color = "b")
+            plt.grid()
             plt.pause(0.80)
             plt.plot(tempTEuler, tempXEuler, label = "Euler", color = "r",linewidth=2)
             plt.plot(tempTEulerMejorado, tempXEulerMejorado, label = "Euler Mejorado", color = "g",linewidth=2) 
@@ -112,12 +134,20 @@ def btnCalcular():
         plt.show()
     
               
-    elif(not nValid(n.get())):
-        messagebox.showerror("Métodos", "N inválida.")
+    elif(nAndh(n.get(), hIngresada)):
+        if(n.get() != "" and h.get() != ""):
+            messagebox.showerror("Métodos", "Debe ingresar el valor de N o h.")
+        else:
+            messagebox.showerror("Métodos", "No puede ingresar tanto N como h. Debe elegir uno de los 2 para ingresar.")
+    elif(not nValidOrhValid(n.get(), hIngresada)):
+        if(n.get() != ""):
+            messagebox.showerror("Métodos", "N inválida.")
+        else:
+            messagebox.showerror("Métodos", "h inválida.")
     elif(not isMathFunction(function.get())):
         messagebox.showerror("Métodos", "Función inválida.")
     else:
-        messagebox.showerror("Métodos", "Datos inválidos. Por favor revise x0, xf e y0.")
+        messagebox.showerror("Métodos", "Datos inválidos. Por favor revise t0, tf y x0.")
 
 
 
@@ -219,7 +249,10 @@ function.grid(row=1,column=1, pady=5, padx=5)
 Label(parameters,text="N= ", font = ('Lucida Bright',10)).grid(row=1,column=2)
 n = Entry(parameters,width=10,borderwidth=5)
 n.grid(row=1,column=3, pady=5, padx=5)
-Button(parameters,text="Calcular", font = ('Lucida Bright',15), command=btnCalcular).grid(row=1,column=5)
+Label(parameters,text="h= ", font = ('Lucida Bright',10)).grid(row=1,column=4)
+h = Entry(parameters,width=10,borderwidth=5)
+h.grid(row=1,column=5, pady=5, padx=5)
+Button(parameters,text="Calcular", font = ('Lucida Bright',15), command=btnCalcular).grid(row=2,column=0)
 
 #Por consola:
 """
