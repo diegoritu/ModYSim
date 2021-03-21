@@ -167,17 +167,17 @@ def euler(x0,t0,tf,function,N):
         t = t0
         h = (tf - t0) / N
         
-        fResult = {} #Se crea un diccionario resultado que guarda x:y como clave:valor
-        fResult[t] = x #Se asigna manualmente x0:y0
+        fResult = {} #Se crea un diccionario resultado que guarda t:x como clave:valor
+        fResult[t] = x #Se asigna manualmente t0:x0
         expr = sympy.sympify(function) #Se guarda en expr la misma expresión que se introdujo en function, pero formateada como expresión de simpy
-        ts = sympy.Symbol('t') #Se le declara a sympy que existe una variable llamada "x"
-        xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "y"
-        f = sympy.lambdify((ts,xs),expr) #Sympy construye la función considerando x e y como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
+        ts = sympy.Symbol('t') #Se le declara a sympy que existe una variable llamada "t"
+        xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "x"
+        f = sympy.lambdify((ts,xs),expr) #Sympy construye la función considerando t y x como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
         
         for k in range(N+1): #Se recorre k desde 0 hasta N
             t = t0 + k * h  
-            fResult[t] = x #Se asigna una nueva clave x:y en el diccionario resultado
-            functionEvaluated = f(t,x) #Se evalúa la función f (anteriormente dinamizada con lambdify) con los valores específicos de x e y
+            fResult[t] = x #Se asigna una nueva clave t:x en el diccionario resultado
+            functionEvaluated = f(t,x) #Se evalúa la función f (anteriormente dinamizada con lambdify) con los valores específicos de t y x
             x = x + h * functionEvaluated        
 
         return fResult
@@ -190,16 +190,16 @@ def eulerMejorado(x0,t0,tf,function,N):
         t = t0
         h = (tf - t0) / N
         
-        fResult = {} #Se crea un diccionario resultado que guarda x:y como clave:valor
-        fResult[t] = x #Se asigna manualmente x0:y0
+        fResult = {} #Se crea un diccionario resultado que guarda t:x como clave:valor
+        fResult[t] = x #Se asigna manualmente t0:x0
         expr = sympy.sympify(function) #Se guarda en expr la misma expresión que se introdujo en function, pero formateada como expresión de simpy
-        ts = sympy.Symbol('t') #Se le declara a sympy que existe una variable llamada "x"
-        xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "y"
-        f = sympy.lambdify((ts,xs),expr) #Sympy construye la función considerando x e y como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
+        ts = sympy.Symbol('t') #Se le declara a sympy que existe una variable llamada "t"
+        xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "x"
+        f = sympy.lambdify((ts,xs),expr) #Sympy construye la función considerando t y x como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
         for k in range(N+1): #Se recorre k desde 0 hasta N
             t = t0 + k * h  
-            fResult[t] = x #Se asigna una nueva clave x:y en el diccionario resultado
-            #f(x,y): Se evalúa la función f (anteriormente dinamizada con lambdify) con los valores específicos de x e y
+            fResult[t] = x #Se asigna una nueva clave t:x en el diccionario resultado
+            #f(x,y): Se evalúa la función f (anteriormente dinamizada con lambdify) con los valores específicos de t y x
             xOriginal = x #guardo el valor de y actual para cuando tenga que hacer el recalculo
             x = x + h * f(t,x) #predictor
             x = xOriginal + (h/2) * (f(t,xOriginal) + f(t+h,x)) #corrector
@@ -214,16 +214,16 @@ def rungeKutta(x0,t0,tf,function,N):
         t = t0
         h = (tf - t0) / N
         
-        fResult = {} #Se crea un diccionario resultado que guarda x:y como clave:valor
-        fResult[t] = x #Se asigna manualmente x0:y0
+        fResult = {} #Se crea un diccionario resultado que guarda t:x como clave:valor
+        fResult[t] = x #Se asigna manualmente t0:x0
         expr = sympy.sympify(function) #Se guarda en expr la misma expresión que se introdujo en function, pero formateada como expresión de simpy
-        ts = sympy.Symbol('t') #Se le declara a sympy que existe una variable llamada "x"
-        xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "y"
-        f = sympy.lambdify((ts,xs),expr) #Sympy construye la función considerando x e y como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
+        ts = sympy.Symbol('t') #Se le declara a sympy que existe una variable llamada "t"
+        xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "x"
+        f = sympy.lambdify((ts,xs),expr) #Sympy construye la función considerando t y x como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
         for k in range(N+1): #Se recorre k desde 0 hasta N
             t = t0 + k * h  
-            fResult[t] = x #Se asigna una nueva clave x:y en el diccionario resultado
-            #f(x,y): Se evalúa la función f (anteriormente dinamizada con lambdify) con los valores específicos de x e y
+            fResult[t] = x #Se asigna una nueva clave t:x en el diccionario resultado
+            #f(x,y): Se evalúa la función f (anteriormente dinamizada con lambdify) con los valores específicos de t y x
             p1 = h * f(t,x)
             p2 = h * f(t+(h/2),x+(p1/2))
             p3 = h * f(t+(h/2),x+(p2/2))
