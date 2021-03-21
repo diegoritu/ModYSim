@@ -72,8 +72,8 @@ def btnCalcular():
         print(fRungeKutta)
 
         plt.title("Gráfico") 
-        plt.xlabel("Eje X") 
-        plt.ylabel("Eje Y") 
+        plt.xlabel("t") 
+        plt.ylabel("X") 
         ejeXEuler = list(fEuler.keys())
         ejeYEuler = list(fEuler.values())
         ejeXEulerMejorado = list(fEulerMejorado.keys())
@@ -98,6 +98,7 @@ def btnCalcular():
             tempXRungeKutta.append(ejeXRungeKutta[i])
             tempYRungeKutta.append(ejeYRungeKutta[i])
             
+
             plt.scatter(tempXEuler, tempYEuler, color = "r")
             plt.scatter(tempXEulerMejorado, tempYEulerMejorado, color = "g")
             plt.scatter(tempXRungeKutta, tempYRungeKutta, color = "b")
