@@ -103,44 +103,116 @@ def btnCalcular():
         tempTRungeKutta = []
         tempXRungeKutta = []
         primeraVez = True
+        
+        if(v.get() == 1):
 
-        for i in range(N+1):
+            for i in range(N+1):
+                
+                if(valorEuler.get()):
+                    tempTEuler.append(ejeTEuler[i])
+                    tempXEuler.append(ejeXEuler[i])
+                if(valorEulerMejorado.get()):
+                    tempTEulerMejorado.append(ejeTEulerMejorado[i])
+                    tempXEulerMejorado.append(ejeXEulerMejorado[i])
+                if(valorRungeKutta.get()):
+                    tempTRungeKutta.append(ejeTRungeKutta[i])
+                    tempXRungeKutta.append(ejeXRungeKutta[i])
+                
+                if(valorEuler.get()):
+                    plt.scatter(tempTEuler, tempXEuler, color = "r")
+                if(valorEulerMejorado.get()):           
+                    plt.scatter(tempTEulerMejorado, tempXEulerMejorado, color = "g")
+                if(valorRungeKutta.get()):            
+                    plt.scatter(tempTRungeKutta, tempXRungeKutta, color = "b")
+                plt.grid()
+                plt.pause(0.80)
+                
+                if(valorEuler.get()):
+                    plt.plot(tempTEuler, tempXEuler, label = "Euler", color = "r",linewidth=2)
+                if(valorEulerMejorado.get()):            
+                    plt.plot(tempTEulerMejorado, tempXEulerMejorado, label = "Euler Mejorado", color = "g",linewidth=2)
+                if(valorRungeKutta.get()): 
+                    plt.plot(tempTRungeKutta, tempXRungeKutta, label = "Runge-Kutta", color = "b",linewidth=2)
+                plt.grid()
+                plt.pause(0.80)
             
+                if primeraVez:
+                    plt.legend()
+                    primeraVez = False
+
+            plt.grid()       
+            plt.show()
+
+        else:
             if(valorEuler.get()):
-                tempTEuler.append(ejeTEuler[i])
-                tempXEuler.append(ejeXEuler[i])
+                for i in range(N+1):
+                    
+                    tempTEuler.append(ejeTEuler[i])
+                    tempXEuler.append(ejeXEuler[i])
+                    
+                    plt.scatter(tempTEuler, tempXEuler, color = "r")
+                    plt.grid()
+                    plt.pause(0.80)
+                    
+                    if(primeraVez):
+                        plt.plot(tempTEuler, tempXEuler, label = "Euler", color = "r",linewidth=2)
+                    else:
+                        plt.plot(tempTEuler, tempXEuler, label = "", color = "r",linewidth=2)
+
+                    plt.grid()
+                    plt.pause(0.80)
+                
+                    if primeraVez:
+                        plt.legend()
+                        primeraVez = False
+            
             if(valorEulerMejorado.get()):
-                tempTEulerMejorado.append(ejeTEulerMejorado[i])
-                tempXEulerMejorado.append(ejeXEulerMejorado[i])
+                primeraVez = True
+                for i in range(N+1):
+                    
+                    tempTEulerMejorado.append(ejeTEulerMejorado[i])
+                    tempXEulerMejorado.append(ejeXEulerMejorado[i])
+                    
+                    plt.scatter(tempTEulerMejorado, tempXEulerMejorado, color = "g")
+                    plt.grid()
+                    plt.pause(0.80)
+                    if(primeraVez):
+                        plt.plot(tempTEulerMejorado, tempXEulerMejorado, label = "Euler Mejorado", color = "g",linewidth=2)
+                    else:
+                        plt.plot(tempTEulerMejorado, tempXEulerMejorado, label = "", color = "g",linewidth=2)
+                    plt.grid()
+                    plt.pause(0.80)
+                
+                    if primeraVez:
+                        
+                        plt.legend()
+                        primeraVez = False
+            
             if(valorRungeKutta.get()):
-                tempTRungeKutta.append(ejeTRungeKutta[i])
-                tempXRungeKutta.append(ejeXRungeKutta[i])
-            
-            if(valorEuler.get()):
-                plt.scatter(tempTEuler, tempXEuler, color = "r")
-            if(valorEulerMejorado.get()):           
-                plt.scatter(tempTEulerMejorado, tempXEulerMejorado, color = "g")
-            if(valorRungeKutta.get()):            
-                plt.scatter(tempTRungeKutta, tempXRungeKutta, color = "b")
-            plt.grid()
-            plt.pause(0.80)
-            
-            if(valorEuler.get()):
-                plt.plot(tempTEuler, tempXEuler, label = "Euler", color = "r",linewidth=2)
-            if(valorEulerMejorado.get()):            
-                plt.plot(tempTEulerMejorado, tempXEulerMejorado, label = "Euler Mejorado", color = "g",linewidth=2)
-            if(valorRungeKutta.get()): 
-                plt.plot(tempTRungeKutta, tempXRungeKutta, label = "Runge-Kutta", color = "b",linewidth=2)
-            plt.grid()
-            plt.pause(0.80)
-           
-            if primeraVez:
-                plt.legend()
-                primeraVez = False
+                primeraVez = True
+                for i in range(N+1):
+                    
+                    tempTRungeKutta.append(ejeTRungeKutta[i])
+                    tempXRungeKutta.append(ejeXRungeKutta[i])
+                    
+                    plt.scatter(tempTRungeKutta, tempXRungeKutta, color = "b")
+                    plt.grid()
+                    plt.pause(0.80)
+                    
+                    if(primeraVez):
+                        plt.plot(tempTRungeKutta, tempXRungeKutta, label = "Runge-Kutta", color = "b",linewidth=2)
+                    else:
+                        plt.plot(tempTRungeKutta, tempXRungeKutta, label = "", color = "b",linewidth=2)
 
-        plt.grid()       
-        plt.show()
-    
+                    plt.grid()
+                    plt.pause(0.80)
+                
+                    if primeraVez:
+                        plt.legend()
+                        primeraVez = False
+
+            plt.grid()       
+            plt.show()
               
     elif(nAndh(n.get(), hIngresada)):
         if(n.get() != "" and h.get() != ""):
@@ -258,25 +330,41 @@ muestraRunge = Checkbutton(parameters, text="Runge Kutta", variable=valorRungeKu
 muestraRunge.grid(row=0,column=4, pady=5, padx=5)
 muestraRunge.select()
 
-Label(parameters,text="X0= ", font = ('Lucida Bright',10)).grid(row=1,column=0)
+
+v = IntVar()
+
+labelForma = Label(parameters, text="Forma de graficar:")
+labelForma.grid(row=1,column=0, pady=5, padx=5)
+
+r1 = Radiobutton(parameters, text="En simultáneo", variable=v, value=1)
+r1.grid(row=1,column=1, pady=5, padx=5)
+
+
+r2 = Radiobutton(parameters, text="En orden", variable=v, value=2)
+r2.grid(row=1,column=2, pady=5, padx=5)
+
+v.set(1)
+
+
+Label(parameters,text="X0= ", font = ('Lucida Bright',10)).grid(row=2,column=0)
 x0 = Entry(parameters,width=10,borderwidth=5)
-x0.grid(row=1,column=1, pady=5, padx=5)
-Label(parameters,text="T0= ", font = ('Lucida Bright',10) ).grid(row=1,column=2)
+x0.grid(row=2,column=1, pady=5, padx=5)
+Label(parameters,text="T0= ", font = ('Lucida Bright',10) ).grid(row=2,column=2)
 t0 = Entry(parameters,width=10,borderwidth=5)
-t0.grid(row=1,column=3, pady=5, padx=5)
-Label(parameters,text="Tf= ", font = ('Lucida Bright',10)).grid(row=1,column=4)
+t0.grid(row=2,column=3, pady=5, padx=5)
+Label(parameters,text="Tf= ", font = ('Lucida Bright',10)).grid(row=2,column=4)
 tf = Entry(parameters,width=10,borderwidth=5)
-tf.grid(row=1,column=5, pady=5, padx=5)
-Label(parameters,text="f(t,x)= ", font = ('Lucida Bright',10)).grid(row=2,column=0)
+tf.grid(row=2,column=5, pady=5, padx=5)
+Label(parameters,text="f(t,x)= ", font = ('Lucida Bright',10)).grid(row=3,column=0)
 function = Entry(parameters,width=10,borderwidth=5)
-function.grid(row=2,column=1, pady=5, padx=5)
-Label(parameters,text="N= ", font = ('Lucida Bright',10)).grid(row=2,column=2)
+function.grid(row=3,column=1, pady=5, padx=5)
+Label(parameters,text="N= ", font = ('Lucida Bright',10)).grid(row=3,column=2)
 n = Entry(parameters,width=10,borderwidth=5)
-n.grid(row=2,column=3, pady=5, padx=5)
-Label(parameters,text="h= ", font = ('Lucida Bright',10)).grid(row=2,column=4)
+n.grid(row=3,column=3, pady=5, padx=5)
+Label(parameters,text="h= ", font = ('Lucida Bright',10)).grid(row=3,column=4)
 h = Entry(parameters,width=10,borderwidth=5)
-h.grid(row=2,column=5, pady=5, padx=5)
-Button(parameters,text="Calcular", font = ('Lucida Bright',15), command=btnCalcular).grid(row=3,column=0)
+h.grid(row=3,column=5, pady=5, padx=5)
+Button(parameters,text="Calcular", font = ('Lucida Bright',15), command=btnCalcular).grid(row=4,column=1)
 
 #Por consola:
 """
