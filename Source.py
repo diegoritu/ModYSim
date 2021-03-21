@@ -30,11 +30,6 @@ def inputIsValid(params):
         except:
             return False 
 
-        """
-        if(re.match(r"(\+|\-)?\d+(,\d+)?$", param) is None):
-            print(param)
-            return False
-        """
     return True
 
 def nValid(n):
@@ -47,25 +42,25 @@ def nValid(n):
 def isMathFunction(function):
     try:
         expr = sympy.sympify(function) #Se guarda en expr la misma expresión que se introdujo en function, pero formateada como expresión de simpy
+        ts = sympy.Symbol('t') #Se le declara a sympy que existe una variable llamada "t"
         xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "x"
-        ys = sympy.Symbol('y') #Se le declara a sympy que existe una variable llamada "y"
-        sympy.lambdify((xs,ys),expr) #Sympy construye la función considerando x e y como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
+        sympy.lambdify((ts,xs),expr) #Sympy construye la función considerando x e y como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
     except:
         return False
     return True
 
 def btnCalcular():  
-    yInicial = y0.get().replace(",",".")
     xInicial = x0.get().replace(",",".")
-    xFinal = xf.get().replace(",",".")
+    tInicial = t0.get().replace(",",".")
+    tFinal = tf.get().replace(",",".")
     functionFix = function.get().replace(",",".")
     print("HEY, ENTRÉ")  
-    params = [yInicial,xInicial,xFinal,n.get()]
+    params = [xInicial,tInicial,tFinal,n.get()]
     if(inputIsValid(params) and nValid(n.get()) and isMathFunction(functionFix)):
         print("HEY, SOY VALIDO")
-        fEuler = euler(float(yInicial),float(xInicial),float(xFinal),functionFix,int(n.get()))
-        fEulerMejorado = eulerMejorado(float(yInicial),float(xInicial),float(xFinal),functionFix,int(n.get()))
-        fRungeKutta = rungeKutta(float(yInicial),float(xInicial),float(xFinal),functionFix,int(n.get()))
+        fEuler = euler(float(xInicial),float(tInicial),float(tFinal),functionFix,int(n.get()))
+        fEulerMejorado = eulerMejorado(float(xInicial),float(tInicial),float(tFinal),functionFix,int(n.get()))
+        fRungeKutta = rungeKutta(float(xInicial),float(tInicial),float(tFinal),functionFix,int(n.get()))
         
         print(fEuler)
         print(fEulerMejorado)              
@@ -74,38 +69,38 @@ def btnCalcular():
         plt.title("Gráfico") 
         plt.xlabel("t") 
         plt.ylabel("X") 
-        ejeXEuler = list(fEuler.keys())
-        ejeYEuler = list(fEuler.values())
-        ejeXEulerMejorado = list(fEulerMejorado.keys())
-        ejeYEulerMejorado = list(fEulerMejorado.values())
-        ejeXRungeKutta = list(fRungeKutta.keys())
-        ejeYRungeKutta = list(fRungeKutta.values())
+        ejeTEuler = list(fEuler.keys())
+        ejeXEuler = list(fEuler.values())
+        ejeTEulerMejorado = list(fEulerMejorado.keys())
+        ejeXEulerMejorado = list(fEulerMejorado.values())
+        ejeTRungeKutta = list(fRungeKutta.keys())
+        ejeXRungeKutta = list(fRungeKutta.values())
 
+        tempTEuler = []
         tempXEuler = []
-        tempYEuler = []
+        tempTEulerMejorado = []
         tempXEulerMejorado = []
-        tempYEulerMejorado = []
+        tempTRungeKutta = []
         tempXRungeKutta = []
-        tempYRungeKutta = []
         primeraVez = True
 
         for i in range(int(n.get())+1):
             
+            tempTEuler.append(ejeTEuler[i])
             tempXEuler.append(ejeXEuler[i])
-            tempYEuler.append(ejeYEuler[i])
+            tempTEulerMejorado.append(ejeTEulerMejorado[i])
             tempXEulerMejorado.append(ejeXEulerMejorado[i])
-            tempYEulerMejorado.append(ejeYEulerMejorado[i])
+            tempTRungeKutta.append(ejeTRungeKutta[i])
             tempXRungeKutta.append(ejeXRungeKutta[i])
-            tempYRungeKutta.append(ejeYRungeKutta[i])
             
 
-            plt.scatter(tempXEuler, tempYEuler, color = "r")
-            plt.scatter(tempXEulerMejorado, tempYEulerMejorado, color = "g")
-            plt.scatter(tempXRungeKutta, tempYRungeKutta, color = "b")
+            plt.scatter(tempTEuler, tempXEuler, color = "r")
+            plt.scatter(tempTEulerMejorado, tempXEulerMejorado, color = "g")
+            plt.scatter(tempTRungeKutta, tempXRungeKutta, color = "b")
             plt.pause(0.80)
-            plt.plot(tempXEuler, tempYEuler, label = "Euler", color = "r",linewidth=2)
-            plt.plot(tempXEulerMejorado, tempYEulerMejorado, label = "Euler Mejorado", color = "g",linewidth=2) 
-            plt.plot(tempXRungeKutta, tempYRungeKutta, label = "Runge-Kutta", color = "b",linewidth=2)
+            plt.plot(tempTEuler, tempXEuler, label = "Euler", color = "r",linewidth=2)
+            plt.plot(tempTEulerMejorado, tempXEulerMejorado, label = "Euler Mejorado", color = "g",linewidth=2) 
+            plt.plot(tempTRungeKutta, tempXRungeKutta, label = "Runge-Kutta", color = "b",linewidth=2)
             plt.grid()
             plt.pause(0.80)
            
@@ -128,74 +123,74 @@ def btnCalcular():
 
 
 #Algoritmo Euler
-def euler(y0,x0,xf,function,N):    
+def euler(x0,t0,tf,function,N):    
     try:
-        y = y0
         x = x0
-        h = (xf - x0) / N
+        t = t0
+        h = (tf - t0) / N
         
         fResult = {} #Se crea un diccionario resultado que guarda x:y como clave:valor
-        fResult[x] = y #Se asigna manualmente x0:y0
+        fResult[t] = x #Se asigna manualmente x0:y0
         expr = sympy.sympify(function) #Se guarda en expr la misma expresión que se introdujo en function, pero formateada como expresión de simpy
-        xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "x"
-        ys = sympy.Symbol('y') #Se le declara a sympy que existe una variable llamada "y"
-        f = sympy.lambdify((xs,ys),expr) #Sympy construye la función considerando x e y como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
+        ts = sympy.Symbol('t') #Se le declara a sympy que existe una variable llamada "x"
+        xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "y"
+        f = sympy.lambdify((ts,xs),expr) #Sympy construye la función considerando x e y como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
         
         for k in range(N+1): #Se recorre k desde 0 hasta N
-            x = x0 + k * h  
-            fResult[x] = y #Se asigna una nueva clave x:y en el diccionario resultado
-            functionEvaluated = f(x,y) #Se evalúa la función f (anteriormente dinamizada con lambdify) con los valores específicos de x e y
-            y = y + h * functionEvaluated        
+            t = t0 + k * h  
+            fResult[t] = x #Se asigna una nueva clave x:y en el diccionario resultado
+            functionEvaluated = f(t,x) #Se evalúa la función f (anteriormente dinamizada con lambdify) con los valores específicos de x e y
+            x = x + h * functionEvaluated        
 
         return fResult
     except:
         messagebox.showerror("Métodos", "Error inesperado.")
 #Algoritmo Euler Mejorado
-def eulerMejorado(y0,x0,xf,function,N):    
+def eulerMejorado(x0,t0,tf,function,N):    
     try:
-        y = y0
         x = x0
-        h = (xf - x0) / N
+        t = t0
+        h = (tf - t0) / N
         
         fResult = {} #Se crea un diccionario resultado que guarda x:y como clave:valor
-        fResult[x] = y #Se asigna manualmente x0:y0
+        fResult[t] = x #Se asigna manualmente x0:y0
         expr = sympy.sympify(function) #Se guarda en expr la misma expresión que se introdujo en function, pero formateada como expresión de simpy
-        xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "x"
-        ys = sympy.Symbol('y') #Se le declara a sympy que existe una variable llamada "y"
-        f = sympy.lambdify((xs,ys),expr) #Sympy construye la función considerando x e y como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
+        ts = sympy.Symbol('t') #Se le declara a sympy que existe una variable llamada "x"
+        xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "y"
+        f = sympy.lambdify((ts,xs),expr) #Sympy construye la función considerando x e y como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
         for k in range(N+1): #Se recorre k desde 0 hasta N
-            x = x0 + k * h  
-            fResult[x] = y #Se asigna una nueva clave x:y en el diccionario resultado
+            t = t0 + k * h  
+            fResult[t] = x #Se asigna una nueva clave x:y en el diccionario resultado
             #f(x,y): Se evalúa la función f (anteriormente dinamizada con lambdify) con los valores específicos de x e y
-            yOriginal = y #guardo el valor de y actual para cuando tenga que hacer el recalculo
-            y = y + h * f(x,y) #predictor
-            y = yOriginal + (h/2) * (f(x,yOriginal) + f(x+h,y)) #corrector
+            xOriginal = x #guardo el valor de y actual para cuando tenga que hacer el recalculo
+            x = x + h * f(t,x) #predictor
+            x = xOriginal + (h/2) * (f(t,xOriginal) + f(t+h,x)) #corrector
           
         return fResult
     except:
         messagebox.showerror("Métodos", "Error inesperado.")
 #Algoritmo Runge Kutta
-def rungeKutta(y0,x0,xf,function,N):    
+def rungeKutta(x0,t0,tf,function,N):    
     try:
-        y = y0
         x = x0
-        h = (xf - x0) / N
+        t = t0
+        h = (tf - t0) / N
         
         fResult = {} #Se crea un diccionario resultado que guarda x:y como clave:valor
-        fResult[x] = y #Se asigna manualmente x0:y0
+        fResult[t] = x #Se asigna manualmente x0:y0
         expr = sympy.sympify(function) #Se guarda en expr la misma expresión que se introdujo en function, pero formateada como expresión de simpy
-        xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "x"
-        ys = sympy.Symbol('y') #Se le declara a sympy que existe una variable llamada "y"
-        f = sympy.lambdify((xs,ys),expr) #Sympy construye la función considerando x e y como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
+        ts = sympy.Symbol('t') #Se le declara a sympy que existe una variable llamada "x"
+        xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "y"
+        f = sympy.lambdify((ts,xs),expr) #Sympy construye la función considerando x e y como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
         for k in range(N+1): #Se recorre k desde 0 hasta N
-            x = x0 + k * h  
-            fResult[x] = y #Se asigna una nueva clave x:y en el diccionario resultado
+            t = t0 + k * h  
+            fResult[t] = x #Se asigna una nueva clave x:y en el diccionario resultado
             #f(x,y): Se evalúa la función f (anteriormente dinamizada con lambdify) con los valores específicos de x e y
-            p1 = h * f(x,y)
-            p2 = h * f(x+(h/2),y+(p1/2))
-            p3 = h * f(x+(h/2),y+(p2/2))
-            p4 = h * f(x+h, y+p3)
-            y = y + (1/6) * (p1+2*p2+2*p3+p4)
+            p1 = h * f(t,x)
+            p2 = h * f(t+(h/2),x+(p1/2))
+            p3 = h * f(t+(h/2),x+(p2/2))
+            p4 = h * f(t+h, x+p3)
+            x = x + (1/6) * (p1+2*p2+2*p3+p4)
         return fResult
     except:
         messagebox.showerror("Métodos", "Error inesperado.")
@@ -209,34 +204,22 @@ Label(root, text="                            ").grid(row=2,column=1) #Espacio e
 
 parameters.grid(row=3, column=1)
 
-Label(parameters,text="Y0= ", font = ('Lucida Bright',10)).grid(row=0,column=0)
-y0 = Entry(parameters,width=10,borderwidth=5)
-y0.grid(row=0,column=1, pady=5, padx=5)
-Label(parameters,text="X0= ", font = ('Lucida Bright',10) ).grid(row=0,column=2)
+Label(parameters,text="X0= ", font = ('Lucida Bright',10)).grid(row=0,column=0)
 x0 = Entry(parameters,width=10,borderwidth=5)
-x0.grid(row=0,column=3, pady=5, padx=5)
-Label(parameters,text="Xf= ", font = ('Lucida Bright',10)).grid(row=0,column=4)
-xf = Entry(parameters,width=10,borderwidth=5)
-xf.grid(row=0,column=5, pady=5, padx=5)
-Label(parameters,text="f(x,y)= ", font = ('Lucida Bright',10)).grid(row=1,column=0)
+x0.grid(row=0,column=1, pady=5, padx=5)
+Label(parameters,text="T0= ", font = ('Lucida Bright',10) ).grid(row=0,column=2)
+t0 = Entry(parameters,width=10,borderwidth=5)
+t0.grid(row=0,column=3, pady=5, padx=5)
+Label(parameters,text="Tf= ", font = ('Lucida Bright',10)).grid(row=0,column=4)
+tf = Entry(parameters,width=10,borderwidth=5)
+tf.grid(row=0,column=5, pady=5, padx=5)
+Label(parameters,text="f(t,x)= ", font = ('Lucida Bright',10)).grid(row=1,column=0)
 function = Entry(parameters,width=10,borderwidth=5)
 function.grid(row=1,column=1, pady=5, padx=5)
 Label(parameters,text="N= ", font = ('Lucida Bright',10)).grid(row=1,column=2)
 n = Entry(parameters,width=10,borderwidth=5)
 n.grid(row=1,column=3, pady=5, padx=5)
 Button(parameters,text="Calcular", font = ('Lucida Bright',15), command=btnCalcular).grid(row=1,column=5)
-
-
-"""
-Button(parameters,text="Euler", font = ('Lucida Bright',15), command=btnEuler).grid(row=5,column=1)
-Label(parameters, text="                            ").grid(row=6,column=1) #Espacio en pantalla
-Button(parameters,text="Euler Mejorado", font = ('Lucida Bright',15), command=btnEulerM).grid(row=7,column=1)
-Label(parameters, text="                            ").grid(row=8,column=1) #Espacio en pantalla
-Button(parameters,text="Runge Kutta", font = ('Lucida Bright',15), command=btnRK).grid(row=9,column=1)
-"""
-
-
-
 
 #Por consola:
 """
