@@ -105,7 +105,7 @@ def btnCalcular():
         primeraVez = True
         
         if(v.get() == 1):
-
+            #Simultáneo
             for i in range(N+1):
                 
                 if(valorEuler.get()):
@@ -143,7 +143,8 @@ def btnCalcular():
             plt.grid()       
             plt.show()
 
-        else:
+        elif(v.get() == 2):
+            #En orden
             if(valorEuler.get()):
                 for i in range(N+1):
                     
@@ -210,6 +211,42 @@ def btnCalcular():
                     if primeraVez:
                         plt.legend()
                         primeraVez = False
+
+            plt.grid()       
+            plt.show()
+        else:
+            #Gráfico inmediato
+            for i in range(N+1):
+                
+                if(valorEuler.get()):
+                    tempTEuler.append(ejeTEuler[i])
+                    tempXEuler.append(ejeXEuler[i])
+                if(valorEulerMejorado.get()):
+                    tempTEulerMejorado.append(ejeTEulerMejorado[i])
+                    tempXEulerMejorado.append(ejeXEulerMejorado[i])
+                if(valorRungeKutta.get()):
+                    tempTRungeKutta.append(ejeTRungeKutta[i])
+                    tempXRungeKutta.append(ejeXRungeKutta[i])
+                
+                if(valorEuler.get()):
+                    plt.scatter(tempTEuler, tempXEuler, color = "r")
+                if(valorEulerMejorado.get()):           
+                    plt.scatter(tempTEulerMejorado, tempXEulerMejorado, color = "g")
+                if(valorRungeKutta.get()):            
+                    plt.scatter(tempTRungeKutta, tempXRungeKutta, color = "b")
+                plt.grid()
+                
+                if(valorEuler.get()):
+                    plt.plot(tempTEuler, tempXEuler, label = "Euler", color = "r",linewidth=2)
+                if(valorEulerMejorado.get()):            
+                    plt.plot(tempTEulerMejorado, tempXEulerMejorado, label = "Euler Mejorado", color = "g",linewidth=2)
+                if(valorRungeKutta.get()): 
+                    plt.plot(tempTRungeKutta, tempXRungeKutta, label = "Runge-Kutta", color = "b",linewidth=2)
+                plt.grid()
+            
+                if primeraVez:
+                    plt.legend()
+                    primeraVez = False
 
             plt.grid()       
             plt.show()
@@ -307,13 +344,12 @@ def rungeKutta(x0,t0,tf,function,N):
 
 
 
-Label(root, text="Parámetros: ", font = ('Lucida Bright',15), padx=10).grid(row=1,column=0)
 
 parameters = LabelFrame(root, padx=50, pady=20)
 
 Label(root, text="                            ").grid(row=2,column=1) #Espacio en pantalla
 
-parameters.grid(row=3, column=1)
+parameters.grid(row=3, column=1, padx=35)
 valorEuler = BooleanVar()
 valorEulerMejorado = BooleanVar()
 valorRungeKutta = BooleanVar()
@@ -339,9 +375,11 @@ labelForma.grid(row=1,column=0, pady=5, padx=5)
 r1 = Radiobutton(parameters, text="En simultáneo", variable=v, value=1)
 r1.grid(row=1,column=1, pady=5, padx=5)
 
-
 r2 = Radiobutton(parameters, text="En orden", variable=v, value=2)
 r2.grid(row=1,column=2, pady=5, padx=5)
+
+r2 = Radiobutton(parameters, text="Inmediato", variable=v, value=3)
+r2.grid(row=1,column=3, pady=5, padx=5)
 
 v.set(1)
 
