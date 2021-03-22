@@ -1,26 +1,84 @@
 from tkinter import *
 from tkinter import filedialog
 from tkinter import messagebox, font
+import tkinter.ttk
+
 import numpy as np
 import sympy
 import re
 from matplotlib import pyplot as plt 
 
 
-"""
-
-   -------- EULER --------
-    Se considera y(k+1) = x(k+1) (refiriendo a función copiada en clase )
-    
-    Para evaluar f(x,y): https://docs.sympy.org/latest/index.html (recordar instalar el módulo con pip antes de correr el código o importarlo)
-
-"""
 root = Tk()
-root.geometry('800x600')
+root.geometry('1150x500')
 root.title('Métodos')
 root.resizable(0,0)
-#Label(root, text="").grid(row=0,column=0) #Espacio en pantalla
 Label(root, text='Métodos', font = ('Lucida Bright',25), pady=20, padx=40).grid(row = 0, column=1)
+
+def graficarTabla(fEuler,fEulerMejorado,fRungeKutta):   
+    global tables 
+    tables = Toplevel(root)
+    tables.title('Tablas')
+    tables.resizable(0,0)
+
+    Label(tables, text='t', font = ('Lucida Bright',15)).grid(row = 0, column=0)
+    tkinter.ttk.Separator(tables, orient=VERTICAL).grid(column=1, row=0, rowspan=100, sticky=(tkinter.N, tkinter.S))
+    Label(tables, text='X', font = ('Lucida Bright',15)).grid(row = 0, column=4)
+    tkinter.ttk.Separator(tables, orient=HORIZONTAL).grid(column=1, row=1, columnspan=100, sticky=(tkinter.W, tkinter.E))
+
+    Label(tables, text='Euler', font = ('Lucida Bright',15)).grid(row = 2, column=2)
+    tkinter.ttk.Separator(tables, orient=VERTICAL).grid(column=3, row=2, rowspan=100, sticky=(tkinter.N, tkinter.S))
+    Label(tables, text='Euler Mejorado', font = ('Lucida Bright',15)).grid(row = 2, column=4)
+    tkinter.ttk.Separator(tables, orient=VERTICAL).grid(column=5, row=2, rowspan=100, sticky=(tkinter.N, tkinter.S))
+    Label(tables, text='Runge-Kutta', font = ('Lucida Bright',15)).grid(row = 2, column=6)
+    tkinter.ttk.Separator(tables, orient=VERTICAL).grid(column=7, row=0, rowspan=100, sticky=(tkinter.N, tkinter.S))
+
+    tkinter.ttk.Separator(tables, orient=HORIZONTAL).grid(column=0, row=3, columnspan=100, sticky=(tkinter.W, tkinter.E))
+
+
+    cont = 4
+    for t in list(fEuler.keys()):
+        display = round(t,4)
+        display = format(display, '.4f')
+        display = str(display)
+        display = display.replace(".", ",")
+        Label(tables, text=display, font = ('Lucida Bright',15)).grid(row = cont, column=0)
+        tkinter.ttk.Separator(tables, orient=HORIZONTAL).grid(column=0, row=cont+1, columnspan=100, sticky=(tkinter.W, tkinter.E))
+
+        cont += 2
+    cont=4
+    for xEuler in list(fEuler.values()):
+        if(valorEuler.get()):
+            display = round(xEuler,4)
+            display = format(display, '.4f')
+            display = str(display)
+            display = display.replace(".", ",")
+            Label(tables, text=display, font = ('Lucida Bright',15), padx=10).grid(row = cont, column=2)
+        else:
+            Label(tables, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=2)
+        cont += 2
+    cont=4
+    for xEulerM in list(fEulerMejorado.values()):
+        if(valorEulerMejorado.get()):
+            display = round(xEulerM,4)
+            display = format(display, '.4f')
+            display = str(display)
+            display = display.replace(".", ",")
+            Label(tables, text=display, font = ('Lucida Bright',15)).grid(row = cont, column=4)
+        else:
+            Label(tables, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=4)
+        cont += 2
+    cont=4
+    for xRK in list(fRungeKutta.values()):
+        if(valorRungeKutta.get()):
+            display = round(xRK,4)
+            display = format(display, '.4f')
+            display = str(display)
+            display = display.replace(".", ",")
+            Label(tables, text=display, font = ('Lucida Bright',15)).grid(row = cont, column=6)
+        else:
+            Label(tables, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=6)
+        cont += 2
 
 def inputIsValid(params):
     
@@ -59,15 +117,19 @@ def isMathFunction(function):
     return True
 
 def btnCalcular():  
+    try:
+        tables.destroy()
+        plt.close()
+    except:
+        pass
+
     xInicial = x0.get().replace(",",".")
     tInicial = t0.get().replace(",",".")
     tFinal = tf.get().replace(",",".")
     functionFix = function.get().replace(",",".")
     hIngresada = h.get().replace(",",".")
-    print("HEY, ENTRÉ")  
     params = [xInicial,tInicial,tFinal]
     if(inputIsValid(params) and nValidOrhValid(n.get(), hIngresada) and isMathFunction(functionFix) and not nAndh(n.get(), hIngresada)):
-        print("HEY, SOY VALIDO")
         N = n.get()
         if(n.get() != ""):
             N = int(N)
@@ -81,7 +143,9 @@ def btnCalcular():
         fEuler = euler(float(xInicial),float(tInicial),float(tFinal),functionFix,N)
         fEulerMejorado = eulerMejorado(float(xInicial),float(tInicial),float(tFinal),functionFix,N)
         fRungeKutta = rungeKutta(float(xInicial),float(tInicial),float(tFinal),functionFix,N)
-        
+
+        graficarTabla(fEuler,fEulerMejorado,fRungeKutta)
+
         print(fEuler)
         print(fEulerMejorado)              
         print(fRungeKutta)
@@ -139,7 +203,7 @@ def btnCalcular():
                 if primeraVez:
                     plt.legend()
                     primeraVez = False
-
+            
             plt.grid()       
             plt.show()
 
@@ -211,7 +275,6 @@ def btnCalcular():
                     if primeraVez:
                         plt.legend()
                         primeraVez = False
-
             plt.grid()       
             plt.show()
         else:
@@ -247,7 +310,6 @@ def btnCalcular():
                 if primeraVez:
                     plt.legend()
                     primeraVez = False
-
             plt.grid()       
             plt.show()
               
@@ -344,65 +406,65 @@ def rungeKutta(x0,t0,tf,function,N):
 
 
 
-
-parameters = LabelFrame(root, padx=50, pady=20)
+parameters = LabelFrame(root, padx=30, pady=10)
 
 Label(root, text="                            ").grid(row=2,column=1) #Espacio en pantalla
 
-parameters.grid(row=3, column=1, padx=35)
+parameters.grid(row=3, column=1)
 valorEuler = BooleanVar()
 valorEulerMejorado = BooleanVar()
 valorRungeKutta = BooleanVar()
 
-muestraEuler = Checkbutton(parameters, text="Euler", variable=valorEuler, onvalue=True, offvalue=False)
-muestraEuler.grid(row=0,column=0, pady=5, padx=5)
+muestraEuler = Checkbutton(parameters, text="Euler", font = ('Lucida Bright',13), variable=valorEuler, onvalue=True, offvalue=False)
+muestraEuler.grid(row=0,column=0, padx=5)
 muestraEuler.select()
 
-muestraEulerMejorado = Checkbutton(parameters, text="Euler Mejorado", variable=valorEulerMejorado, onvalue=True, offvalue=False)
-muestraEulerMejorado.grid(row=0,column=2, pady=5, padx=5)
+muestraEulerMejorado = Checkbutton(parameters, text="Euler Mejorado", font = ('Lucida Bright',13), variable=valorEulerMejorado, onvalue=True, offvalue=False)
+muestraEulerMejorado.grid(row=0,column=2, padx=5)
 muestraEulerMejorado.select()
 
-muestraRunge = Checkbutton(parameters, text="Runge Kutta", variable=valorRungeKutta, onvalue=True, offvalue=False)
+muestraRunge = Checkbutton(parameters, text="Runge Kutta", font = ('Lucida Bright',13), variable=valorRungeKutta, onvalue=True, offvalue=False)
 muestraRunge.grid(row=0,column=4, pady=5, padx=5)
 muestraRunge.select()
 
 
 v = IntVar()
 
-labelForma = Label(parameters, text="Forma de graficar:")
+labelForma = Label(parameters, text="Forma de graficar:", font = ('Lucida Bright',13))
 labelForma.grid(row=1,column=0, pady=5, padx=5)
 
-r1 = Radiobutton(parameters, text="En simultáneo", variable=v, value=1)
+r1 = Radiobutton(parameters, text="En simultáneo", font = ('Lucida Bright',13), variable=v, value=1)
 r1.grid(row=1,column=1, pady=5, padx=5)
 
-r2 = Radiobutton(parameters, text="En orden", variable=v, value=2)
-r2.grid(row=1,column=2, pady=5, padx=5)
 
-r2 = Radiobutton(parameters, text="Inmediato", variable=v, value=3)
+r2 = Radiobutton(parameters, text="En orden", font = ('Lucida Bright',13), variable=v, value=2)
+r2.grid(row=1,column=2, padx=5)
+
+r2 = Radiobutton(parameters, text="Inmediato",font = ('Lucida Bright',13), variable=v, value=3)
 r2.grid(row=1,column=3, pady=5, padx=5)
 
 v.set(1)
 
 
-Label(parameters,text="X0= ", font = ('Lucida Bright',10)).grid(row=2,column=0)
-x0 = Entry(parameters,width=10,borderwidth=5)
-x0.grid(row=2,column=1, pady=5, padx=5)
-Label(parameters,text="T0= ", font = ('Lucida Bright',10) ).grid(row=2,column=2)
-t0 = Entry(parameters,width=10,borderwidth=5)
-t0.grid(row=2,column=3, pady=5, padx=5)
-Label(parameters,text="Tf= ", font = ('Lucida Bright',10)).grid(row=2,column=4)
-tf = Entry(parameters,width=10,borderwidth=5)
-tf.grid(row=2,column=5, pady=5, padx=5)
-Label(parameters,text="f(t,x)= ", font = ('Lucida Bright',10)).grid(row=3,column=0)
-function = Entry(parameters,width=10,borderwidth=5)
-function.grid(row=3,column=1, pady=5, padx=5)
-Label(parameters,text="N= ", font = ('Lucida Bright',10)).grid(row=3,column=2)
-n = Entry(parameters,width=10,borderwidth=5)
-n.grid(row=3,column=3, pady=5, padx=5)
-Label(parameters,text="h= ", font = ('Lucida Bright',10)).grid(row=3,column=4)
-h = Entry(parameters,width=10,borderwidth=5)
-h.grid(row=3,column=5, pady=5, padx=5)
-Button(parameters,text="Calcular", font = ('Lucida Bright',15), command=btnCalcular).grid(row=4,column=1)
+Label(parameters,text="X0= ", font = ('Lucida Bright',13)).grid(row=2,column=0)
+x0 = Entry(parameters,width=30,borderwidth=5, font = ('Lucida Bright',13))
+x0.grid(row=2,column=1, pady=5)
+Label(parameters,text="T0= ", font = ('Lucida Bright',13) ).grid(row=2,column=2)
+t0 = Entry(parameters,width=30,borderwidth=5,font = ('Lucida Bright',13))
+t0.grid(row=2,column=3, pady=5)
+Label(parameters,text="Tf= ", font = ('Lucida Bright',13)).grid(row=3,column=0)
+tf = Entry(parameters,width=30,borderwidth=5,font = ('Lucida Bright',13))
+tf.grid(row=3,column=1, pady=5)
+Label(parameters,text="f(t,x)= ", font = ('Lucida Bright',13)).grid(row=3,column=2)
+function = Entry(parameters,width=30,borderwidth=5,font = ('Lucida Bright',13))
+function.grid(row=3,column=3, pady=5)
+Label(parameters,text="N= ", font = ('Lucida Bright',13)).grid(row=4,column=0)
+n = Entry(parameters,width=30,borderwidth=5,font = ('Lucida Bright',13))
+n.grid(row=4,column=1, pady=5)
+Label(parameters,text="h= ", font = ('Lucida Bright',13)).grid(row=4,column=2)
+h = Entry(parameters,width=30,borderwidth=5,font = ('Lucida Bright',13))
+h.grid(row=4,column=3, pady=5)
+Button(parameters,text="Calcular", font = ('Lucida Bright',15), command=btnCalcular).grid(row=5,column=4)
 
 #Por consola:
 """
