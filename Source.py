@@ -59,10 +59,13 @@ def graficarTabla(fEuler,fEulerMejorado,fRungeKutta):
         cont=4
         for xEuler in list(fEuler.values()):
             if(valorEuler.get()):
-                display = round(xEuler,4)
-                display = format(display, '.4f')
-                display = str(display)
-                display = display.replace(".", ",")
+                if(np.isnan(xEuler)):
+                    display = "NaN"
+                else:
+                    display = round(xEuler,4)
+                    display = format(display, '.4f')
+                    display = str(display)
+                    display = display.replace(".", ",")
                 Label(tables, text=display, font = ('Lucida Bright',15), padx=10).grid(row = cont, column=numCol)
             else:
                 Label(tables, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
@@ -73,10 +76,13 @@ def graficarTabla(fEuler,fEulerMejorado,fRungeKutta):
         cont=4
         for xEulerM in list(fEulerMejorado.values()):
             if(valorEulerMejorado.get()):
-                display = round(xEulerM,4)
-                display = format(display, '.4f')
-                display = str(display)
-                display = display.replace(".", ",")
+                if(np.isnan(xEulerM)):
+                    display = "NaN"
+                else:
+                    display = round(xEulerM,4)
+                    display = format(display, '.4f')
+                    display = str(display)
+                    display = display.replace(".", ",")
                 Label(tables, text=display, font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
             else:
                 Label(tables, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
@@ -88,10 +94,13 @@ def graficarTabla(fEuler,fEulerMejorado,fRungeKutta):
         cont=4
         for xRK in list(fRungeKutta.values()):
             if(valorRungeKutta.get()):
-                display = round(xRK,4)
-                display = format(display, '.4f')
-                display = str(display)
-                display = display.replace(".", ",")
+                if(np.isnan(xRK)):
+                    display = "NaN"
+                else:
+                    display = round(xRK,4)
+                    display = format(display, '.4f')
+                    display = str(display)
+                    display = display.replace(".", ",")
                 Label(tables, text=display, font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
             else:
                 Label(tables, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
