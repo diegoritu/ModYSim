@@ -111,7 +111,7 @@ def isMathFunction(function):
         expr = sympy.sympify(function) #Se guarda en expr la misma expresión que se introdujo en function, pero formateada como expresión de simpy
         ts = sympy.Symbol('t') #Se le declara a sympy que existe una variable llamada "t"
         xs = sympy.Symbol('x') #Se le declara a sympy que existe una variable llamada "x"
-        sympy.lambdify((ts,xs),expr) #Sympy construye la función considerando x e y como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
+        sympy.lambdify((ts,xs),expr) #Sympy construye la función considerando t y x como variables, para posteriormente poder calcular su resultado solamente reemplazando esos valores
     except:
         return False
     return True
@@ -446,16 +446,16 @@ r2.grid(row=1,column=3, pady=5, padx=5)
 v.set(1)
 
 
-Label(parameters,text="X0= ", font = ('Lucida Bright',13)).grid(row=2,column=0)
+Label(parameters,text="x0= ", font = ('Lucida Bright',13)).grid(row=2,column=0)
 x0 = Entry(parameters,width=30,borderwidth=5, font = ('Lucida Bright',13))
 x0.grid(row=2,column=1, pady=5)
-Label(parameters,text="T0= ", font = ('Lucida Bright',13) ).grid(row=2,column=2)
+Label(parameters,text="t0= ", font = ('Lucida Bright',13) ).grid(row=2,column=2)
 t0 = Entry(parameters,width=30,borderwidth=5,font = ('Lucida Bright',13))
 t0.grid(row=2,column=3, pady=5)
-Label(parameters,text="Tf= ", font = ('Lucida Bright',13)).grid(row=3,column=0)
+Label(parameters,text="tf= ", font = ('Lucida Bright',13)).grid(row=3,column=0)
 tf = Entry(parameters,width=30,borderwidth=5,font = ('Lucida Bright',13))
 tf.grid(row=3,column=1, pady=5)
-Label(parameters,text="f(t,x)= ", font = ('Lucida Bright',13)).grid(row=3,column=2)
+Label(parameters,text="f(x,t)= ", font = ('Lucida Bright',13)).grid(row=3,column=2)
 function = Entry(parameters,width=30,borderwidth=5,font = ('Lucida Bright',13))
 function.grid(row=3,column=3, pady=5)
 Label(parameters,text="N= ", font = ('Lucida Bright',13)).grid(row=4,column=0)
@@ -465,21 +465,5 @@ Label(parameters,text="h= ", font = ('Lucida Bright',13)).grid(row=4,column=2)
 h = Entry(parameters,width=30,borderwidth=5,font = ('Lucida Bright',13))
 h.grid(row=4,column=3, pady=5)
 Button(parameters,text="Calcular", font = ('Lucida Bright',15), command=btnCalcular).grid(row=5,column=4)
-
-#Por consola:
-"""
-
-x0 = float(input('x0= '))
-y0 = float(input('y0= '))
-xf = float(input('xf= '))
-function = input('function= ')
-N = int(input('N= '))
-
-#euler(0.32,0.13,0.14,"sin(x)-ln(y)",4)
-
-print(euler(y0,x0,xf,function,N))
-print(eulerMejorado(y0,x0,xf,function,N))
-print(rungeKutta(y0,x0,xf,function,N))
-"""
 
 root.mainloop()
