@@ -23,15 +23,22 @@ def graficarTabla(fEuler,fEulerMejorado,fRungeKutta):
 
     Label(tables, text='t', font = ('Lucida Bright',15)).grid(row = 0, column=0)
     tkinter.ttk.Separator(tables, orient=VERTICAL).grid(column=1, row=0, rowspan=100, sticky=(tkinter.N, tkinter.S))
-    Label(tables, text='X', font = ('Lucida Bright',15)).grid(row = 0, column=4)
+    Label(tables, text='X', font = ('Lucida Bright',15)).grid(row = 0, column=2)
     tkinter.ttk.Separator(tables, orient=HORIZONTAL).grid(column=1, row=1, columnspan=100, sticky=(tkinter.W, tkinter.E))
 
-    Label(tables, text='Euler', font = ('Lucida Bright',15)).grid(row = 2, column=2)
-    tkinter.ttk.Separator(tables, orient=VERTICAL).grid(column=3, row=2, rowspan=100, sticky=(tkinter.N, tkinter.S))
-    Label(tables, text='Euler Mejorado', font = ('Lucida Bright',15)).grid(row = 2, column=4)
-    tkinter.ttk.Separator(tables, orient=VERTICAL).grid(column=5, row=2, rowspan=100, sticky=(tkinter.N, tkinter.S))
-    Label(tables, text='Runge-Kutta', font = ('Lucida Bright',15)).grid(row = 2, column=6)
-    tkinter.ttk.Separator(tables, orient=VERTICAL).grid(column=7, row=0, rowspan=100, sticky=(tkinter.N, tkinter.S))
+    numCol = 2
+    if(valorEuler.get()):
+        Label(tables, text='Euler', font = ('Lucida Bright',15)).grid(row = 2, column=numCol)
+        tkinter.ttk.Separator(tables, orient=VERTICAL).grid(column=numCol+1, row=2, rowspan=100, sticky=(tkinter.N, tkinter.S))
+        numCol = numCol+2
+    if(valorEulerMejorado.get()):
+        Label(tables, text='Euler Mejorado', font = ('Lucida Bright',15)).grid(row = 2, column=numCol)
+        tkinter.ttk.Separator(tables, orient=VERTICAL).grid(column=numCol+1, row=2, rowspan=100, sticky=(tkinter.N, tkinter.S))
+        numCol = numCol+2
+    if(valorRungeKutta.get()):        
+        Label(tables, text='Runge-Kutta', font = ('Lucida Bright',15)).grid(row = 2, column=numCol)
+        tkinter.ttk.Separator(tables, orient=VERTICAL).grid(column=numCol+1, row=0, rowspan=100, sticky=(tkinter.N, tkinter.S))
+        numCol = numCol+2
 
     tkinter.ttk.Separator(tables, orient=HORIZONTAL).grid(column=0, row=3, columnspan=100, sticky=(tkinter.W, tkinter.E))
 
@@ -46,39 +53,50 @@ def graficarTabla(fEuler,fEulerMejorado,fRungeKutta):
         tkinter.ttk.Separator(tables, orient=HORIZONTAL).grid(column=0, row=cont+1, columnspan=100, sticky=(tkinter.W, tkinter.E))
 
         cont += 2
-    cont=4
-    for xEuler in list(fEuler.values()):
-        if(valorEuler.get()):
-            display = round(xEuler,4)
-            display = format(display, '.4f')
-            display = str(display)
-            display = display.replace(".", ",")
-            Label(tables, text=display, font = ('Lucida Bright',15), padx=10).grid(row = cont, column=2)
-        else:
-            Label(tables, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=2)
-        cont += 2
-    cont=4
-    for xEulerM in list(fEulerMejorado.values()):
-        if(valorEulerMejorado.get()):
-            display = round(xEulerM,4)
-            display = format(display, '.4f')
-            display = str(display)
-            display = display.replace(".", ",")
-            Label(tables, text=display, font = ('Lucida Bright',15)).grid(row = cont, column=4)
-        else:
-            Label(tables, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=4)
-        cont += 2
-    cont=4
-    for xRK in list(fRungeKutta.values()):
-        if(valorRungeKutta.get()):
-            display = round(xRK,4)
-            display = format(display, '.4f')
-            display = str(display)
-            display = display.replace(".", ",")
-            Label(tables, text=display, font = ('Lucida Bright',15)).grid(row = cont, column=6)
-        else:
-            Label(tables, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=6)
-        cont += 2
+
+    numCol = 2
+    if(valorEuler.get()):
+        cont=4
+        for xEuler in list(fEuler.values()):
+            if(valorEuler.get()):
+                display = round(xEuler,4)
+                display = format(display, '.4f')
+                display = str(display)
+                display = display.replace(".", ",")
+                Label(tables, text=display, font = ('Lucida Bright',15), padx=10).grid(row = cont, column=numCol)
+            else:
+                Label(tables, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
+            cont += 2
+        numCol = numCol + 2
+
+    if(valorEulerMejorado.get()):    
+        cont=4
+        for xEulerM in list(fEulerMejorado.values()):
+            if(valorEulerMejorado.get()):
+                display = round(xEulerM,4)
+                display = format(display, '.4f')
+                display = str(display)
+                display = display.replace(".", ",")
+                Label(tables, text=display, font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
+            else:
+                Label(tables, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
+            cont += 2
+        numCol = numCol + 2
+
+        
+    if(valorRungeKutta.get()):        
+        cont=4
+        for xRK in list(fRungeKutta.values()):
+            if(valorRungeKutta.get()):
+                display = round(xRK,4)
+                display = format(display, '.4f')
+                display = str(display)
+                display = display.replace(".", ",")
+                Label(tables, text=display, font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
+            else:
+                Label(tables, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
+            cont += 2
+        numCol = numCol + 2
 
 def inputIsValid(params):
     
