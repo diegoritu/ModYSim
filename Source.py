@@ -15,32 +15,49 @@ root.title('Métodos')
 root.resizable(0,0)
 Label(root, text='Métodos', font = ('Lucida Bright',25), pady=20, padx=40).grid(row = 0, column=1)
 
+
 def graficarTabla(fEuler,fEulerMejorado,fRungeKutta):   
     global tables 
     tables = Toplevel(root)
     tables.title('Tablas')
+    tables.geometry('500x600')
     tables.resizable(0,0)
 
-    Label(tables, text='t', font = ('Lucida Bright',15)).grid(row = 0, column=0)
-    tkinter.ttk.Separator(tables, orient=VERTICAL).grid(column=1, row=0, rowspan=100, sticky=(tkinter.N, tkinter.S))
-    Label(tables, text='X', font = ('Lucida Bright',15)).grid(row = 0, column=2)
-    tkinter.ttk.Separator(tables, orient=HORIZONTAL).grid(column=1, row=1, columnspan=100, sticky=(tkinter.W, tkinter.E))
+    mainframe = Frame(tables)
+    mainframe.pack(fill=BOTH,expand=1)
+    
+    canvas = Canvas(mainframe)
+    canvas.pack(side=LEFT, fill=BOTH, expand=1)
+
+    scrollbar = Scrollbar(mainframe,orient=VERTICAL, command=canvas.yview)
+    scrollbar.pack(side=RIGHT, fill=Y)
+
+    canvas.configure(yscrollcommand=scrollbar.set)
+    canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+    secondFrame = Frame(canvas)
+    canvas.create_window((0,0), window=secondFrame, anchor="nw")
+
+    Label(secondFrame, text='t', font = ('Lucida Bright',15)).grid(row = 1, column=0)
+    tkinter.ttk.Separator(secondFrame, orient=VERTICAL).grid(column=1, row=0, rowspan=5000, sticky=(tkinter.N, tkinter.S))
+    Label(secondFrame, text='X', font = ('Lucida Bright',15)).grid(row = 0, column=4)
+    tkinter.ttk.Separator(secondFrame, orient=HORIZONTAL).grid(column=1, row=1, columnspan=5000, sticky=(tkinter.W, tkinter.E))
 
     numCol = 2
     if(valorEuler.get()):
-        Label(tables, text='Euler', font = ('Lucida Bright',15)).grid(row = 2, column=numCol)
-        tkinter.ttk.Separator(tables, orient=VERTICAL).grid(column=numCol+1, row=2, rowspan=100, sticky=(tkinter.N, tkinter.S))
+        Label(secondFrame, text='Euler', font = ('Lucida Bright',15)).grid(row = 2, column=numCol)
+        tkinter.ttk.Separator(secondFrame, orient=VERTICAL).grid(column=numCol+1, row=2, rowspan=5000, sticky=(tkinter.N, tkinter.S))
         numCol = numCol+2
     if(valorEulerMejorado.get()):
-        Label(tables, text='Euler Mejorado', font = ('Lucida Bright',15)).grid(row = 2, column=numCol)
-        tkinter.ttk.Separator(tables, orient=VERTICAL).grid(column=numCol+1, row=2, rowspan=100, sticky=(tkinter.N, tkinter.S))
+        Label(secondFrame, text='Euler Mejorado', font = ('Lucida Bright',15)).grid(row = 2, column=numCol)
+        tkinter.ttk.Separator(secondFrame, orient=VERTICAL).grid(column=numCol+1, row=2, rowspan=5000, sticky=(tkinter.N, tkinter.S))
         numCol = numCol+2
     if(valorRungeKutta.get()):        
-        Label(tables, text='Runge-Kutta', font = ('Lucida Bright',15)).grid(row = 2, column=numCol)
-        tkinter.ttk.Separator(tables, orient=VERTICAL).grid(column=numCol+1, row=0, rowspan=100, sticky=(tkinter.N, tkinter.S))
+        Label(secondFrame, text='Runge-Kutta', font = ('Lucida Bright',15)).grid(row = 2, column=numCol)
+        tkinter.ttk.Separator(secondFrame, orient=VERTICAL).grid(column=numCol+1, row=0, rowspan=5000, sticky=(tkinter.N, tkinter.S))
         numCol = numCol+2
 
-    tkinter.ttk.Separator(tables, orient=HORIZONTAL).grid(column=0, row=3, columnspan=100, sticky=(tkinter.W, tkinter.E))
+    tkinter.ttk.Separator(secondFrame, orient=HORIZONTAL).grid(column=0, row=3, columnspan=5000, sticky=(tkinter.W, tkinter.E))
 
 
     cont = 4
@@ -49,8 +66,8 @@ def graficarTabla(fEuler,fEulerMejorado,fRungeKutta):
         display = format(display, '.4f')
         display = str(display)
         display = display.replace(".", ",")
-        Label(tables, text=display, font = ('Lucida Bright',15)).grid(row = cont, column=0)
-        tkinter.ttk.Separator(tables, orient=HORIZONTAL).grid(column=0, row=cont+1, columnspan=100, sticky=(tkinter.W, tkinter.E))
+        Label(secondFrame, text=display, font = ('Lucida Bright',15)).grid(row = cont, column=0)
+        tkinter.ttk.Separator(secondFrame, orient=HORIZONTAL).grid(column=0, row=cont+1, columnspan=5000, sticky=(tkinter.W, tkinter.E))
 
         cont += 2
 
@@ -66,9 +83,9 @@ def graficarTabla(fEuler,fEulerMejorado,fRungeKutta):
                     display = format(display, '.4f')
                     display = str(display)
                     display = display.replace(".", ",")
-                Label(tables, text=display, font = ('Lucida Bright',15), padx=10).grid(row = cont, column=numCol)
+                Label(secondFrame, text=display, font = ('Lucida Bright',15), padx=10).grid(row = cont, column=numCol)
             else:
-                Label(tables, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
+                Label(secondFrame, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
             cont += 2
         numCol = numCol + 2
 
@@ -83,9 +100,9 @@ def graficarTabla(fEuler,fEulerMejorado,fRungeKutta):
                     display = format(display, '.4f')
                     display = str(display)
                     display = display.replace(".", ",")
-                Label(tables, text=display, font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
+                Label(secondFrame, text=display, font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
             else:
-                Label(tables, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
+                Label(secondFrame, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
             cont += 2
         numCol = numCol + 2
 
@@ -101,9 +118,9 @@ def graficarTabla(fEuler,fEulerMejorado,fRungeKutta):
                     display = format(display, '.4f')
                     display = str(display)
                     display = display.replace(".", ",")
-                Label(tables, text=display, font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
+                Label(secondFrame, text=display, font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
             else:
-                Label(tables, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
+                Label(secondFrame, text="-", font = ('Lucida Bright',15)).grid(row = cont, column=numCol)
             cont += 2
         numCol = numCol + 2
 
