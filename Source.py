@@ -10,11 +10,12 @@ from matplotlib import pyplot as plt
 
 
 root = Tk()
-root.geometry('1150x500')
+root.geometry('960x410')
 root.title('Métodos')
 root.resizable(0,0)
-Label(root, text='Métodos', font = ('Lucida Bright',25), pady=20, padx=40).grid(row = 0, column=1)
-
+imagen=PhotoImage(file="Metodos.png")
+Label(root, text='Métodos', font = ('Roboto',25), pady=20, padx=40).grid(row = 1, column=1)
+Label(root,image=imagen).place(x=580,y=-2)
 
 def graficarTabla(fEuler,fEulerMejorado,fRungeKutta):   
     global tables 
@@ -42,7 +43,6 @@ def graficarTabla(fEuler,fEulerMejorado,fRungeKutta):
     tkinter.ttk.Separator(secondFrame, orient=VERTICAL).grid(column=1, row=0, rowspan=5000, sticky=(tkinter.N, tkinter.S))
     Label(secondFrame, text='X', font = ('Lucida Bright',15)).grid(row = 0, column=4)
     tkinter.ttk.Separator(secondFrame, orient=HORIZONTAL).grid(column=1, row=1, columnspan=5000, sticky=(tkinter.W, tkinter.E))
-
     numCol = 2
     if(valorEuler.get()):
         Label(secondFrame, text='Euler', font = ('Lucida Bright',15)).grid(row = 2, column=numCol)
@@ -477,37 +477,44 @@ v = IntVar()
 labelForma = Label(parameters, text="Forma de graficar:", font = ('Lucida Bright',13))
 labelForma.grid(row=1,column=0, pady=5, padx=5)
 
-r1 = Radiobutton(parameters, text="En simultáneo", font = ('Lucida Bright',13), variable=v, value=1)
+r1 = Radiobutton(parameters, text="En simultáneo", font = ('Lucida Bright',13), variable=v, value=1,activeforeground="#1faa00")
 r1.grid(row=1,column=1, pady=5, padx=5)
 
 
-r2 = Radiobutton(parameters, text="En orden", font = ('Lucida Bright',13), variable=v, value=2)
+r2 = Radiobutton(parameters, text="En orden", font = ('Lucida Bright',13), variable=v, value=2,activeforeground="#1faa00")
 r2.grid(row=1,column=2, padx=5)
 
-r2 = Radiobutton(parameters, text="Inmediato",font = ('Lucida Bright',13), variable=v, value=3)
+r2 = Radiobutton(parameters, text="Inmediato",font = ('Lucida Bright',13), variable=v, value=3,activeforeground="#1faa00")
 r2.grid(row=1,column=3, pady=5, padx=5)
 
 v.set(1)
 
 
 Label(parameters,text="x0= ", font = ('Lucida Bright',13)).grid(row=2,column=0)
-x0 = Entry(parameters,width=30,borderwidth=5, font = ('Lucida Bright',13))
+x0 = Entry(parameters,width=20,borderwidth=5, font = ('Lucida Bright',13))
 x0.grid(row=2,column=1, pady=5)
+
 Label(parameters,text="t0= ", font = ('Lucida Bright',13) ).grid(row=2,column=2)
-t0 = Entry(parameters,width=30,borderwidth=5,font = ('Lucida Bright',13))
+t0 = Entry(parameters,width=20,borderwidth=5,font = ('Lucida Bright',13))
 t0.grid(row=2,column=3, pady=5)
+
 Label(parameters,text="tf= ", font = ('Lucida Bright',13)).grid(row=3,column=0)
-tf = Entry(parameters,width=30,borderwidth=5,font = ('Lucida Bright',13))
+tf = Entry(parameters,width=20,borderwidth=5,font = ('Lucida Bright',13))
 tf.grid(row=3,column=1, pady=5)
+
 Label(parameters,text="f(x,t)= ", font = ('Lucida Bright',13)).grid(row=3,column=2)
-function = Entry(parameters,width=30,borderwidth=5,font = ('Lucida Bright',13))
+function = Entry(parameters,width=20,borderwidth=5,font = ('Lucida Bright',13))
+function.insert(0,"Escriba la funcion aqui")
 function.grid(row=3,column=3, pady=5)
+
 Label(parameters,text="N= ", font = ('Lucida Bright',13)).grid(row=4,column=0)
-n = Entry(parameters,width=30,borderwidth=5,font = ('Lucida Bright',13))
+n = Entry(parameters,width=20,borderwidth=5,font = ('Lucida Bright',13))
 n.grid(row=4,column=1, pady=5)
+
 Label(parameters,text="h= ", font = ('Lucida Bright',13)).grid(row=4,column=2)
-h = Entry(parameters,width=30,borderwidth=5,font = ('Lucida Bright',13))
+h = Entry(parameters,width=20,borderwidth=5,font = ('Lucida Bright',13))
 h.grid(row=4,column=3, pady=5)
-Button(parameters,text="Calcular", font = ('Lucida Bright',15), command=btnCalcular).grid(row=5,column=4)
+
+Button(parameters,text="Calcular", font = ('Ubuntu',15), activeforeground="#F50743",command=btnCalcular).grid(row=5,column=4)
 
 root.mainloop()
