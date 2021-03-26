@@ -10,12 +10,20 @@ from matplotlib import pyplot as plt
 
 
 root = Tk()
-root.geometry('960x410')
+appWidth = 960
+appHeight= 410
+
+screenWidth= root.winfo_screenwidth()
+screenHeight= root.winfo_screenheight()
+x= (screenWidth/2) - (appWidth/2)
+y= (screenHeight/2) - (appHeight/2)
+root.geometry(f'{appWidth}x{appHeight}+{int(x)}+{int(y)}')
+
 root.title('Métodos')
 root.resizable(0,0)
-imagen=PhotoImage(file="Metodos.png")
-Label(root, text='Métodos', font = ('Roboto',25), pady=20, padx=40).grid(row = 1, column=1)
-Label(root,image=imagen).place(x=580,y=-2)
+root.iconbitmap('Metodos.ico')
+
+Label(root, text='Métodos', font = ('Lucida Bright',25,'underline'), pady=20, padx=40).grid(row = 1, column=1)
 
 def graficarTabla(fEuler,fEulerMejorado,fRungeKutta):   
     global tables 
@@ -23,6 +31,7 @@ def graficarTabla(fEuler,fEulerMejorado,fRungeKutta):
     tables.title('Tablas')
     tables.geometry('500x600')
     tables.resizable(0,0)
+    tables.iconbitmap('Metodos.ico')
 
     mainframe = Frame(tables)
     mainframe.pack(fill=BOTH,expand=1)
@@ -354,7 +363,7 @@ def btnCalcular():
                 if primeraVez:
                     plt.legend()
                     primeraVez = False
-            plt.grid()       
+            plt.grid()
             plt.show()
               
     elif(nAndh(n.get(), hIngresada)):
@@ -504,7 +513,6 @@ tf.grid(row=3,column=1, pady=5)
 
 Label(parameters,text="f(x,t)= ", font = ('Lucida Bright',13)).grid(row=3,column=2)
 function = Entry(parameters,width=20,borderwidth=5,font = ('Lucida Bright',13))
-function.insert(0,"Escriba la funcion aqui")
 function.grid(row=3,column=3, pady=5)
 
 Label(parameters,text="N= ", font = ('Lucida Bright',13)).grid(row=4,column=0)
@@ -515,6 +523,6 @@ Label(parameters,text="h= ", font = ('Lucida Bright',13)).grid(row=4,column=2)
 h = Entry(parameters,width=20,borderwidth=5,font = ('Lucida Bright',13))
 h.grid(row=4,column=3, pady=5)
 
-Button(parameters,text="Calcular", font = ('Ubuntu',15), activeforeground="#F50743",command=btnCalcular).grid(row=5,column=4)
+Button(parameters,text="Calcular", font = ('Lucida Bright',15),background="#A2EFAC", activeforeground="white", activebackground="#85C38D",command=btnCalcular).grid(row=5,column=4)
 
 root.mainloop()
