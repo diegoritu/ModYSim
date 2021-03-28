@@ -182,7 +182,7 @@ def btnCalcular():
     functionFix = function.get().replace(",",".")
     hIngresada = h.get().replace(",",".")
     params = [xInicial,tInicial,tFinal]
-    if(inputIsValid(params) and nValidOrhValid(n.get(), hIngresada) and isMathFunction(functionFix) and not nAndh(n.get(), hIngresada)):
+    if(inputIsValid(params) and nValidOrhValid(n.get(), hIngresada) and isMathFunction(functionFix) and not nAndh(n.get(), hIngresada) and (valorEuler.get() or valorEulerMejorado.get() or valorRungeKutta.get())):
         N = n.get()
         if(n.get() != ""):
             N = int(N)
@@ -366,6 +366,8 @@ def btnCalcular():
             plt.grid()
             plt.show()
               
+    elif (not(valorEuler.get() or valorEulerMejorado.get() or valorRungeKutta.get())):
+         messagebox.showerror("Métodos", "Debe seleccionar algún método para realizar los cálculos.")
     elif(nAndh(n.get(), hIngresada)):
         if(n.get() != "" and h.get() != ""):
             messagebox.showerror("Métodos", "Debe ingresar el valor de N o h.")
