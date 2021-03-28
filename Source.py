@@ -192,180 +192,185 @@ def btnCalcular():
             print(N)
 
 
-
-        fEuler = euler(float(xInicial),float(tInicial),float(tFinal),functionFix,N)
-        fEulerMejorado = eulerMejorado(float(xInicial),float(tInicial),float(tFinal),functionFix,N)
-        fRungeKutta = rungeKutta(float(xInicial),float(tInicial),float(tFinal),functionFix,N)
-
-        graficarTabla(fEuler,fEulerMejorado,fRungeKutta)
-
-        print(fEuler)
-        print(fEulerMejorado)              
-        print(fRungeKutta)
-
-        plt.title("Gráfico") 
-        plt.xlabel("t") 
-        plt.ylabel("X") 
-        ejeTEuler = list(fEuler.keys())
-        ejeXEuler = list(fEuler.values())
-        ejeTEulerMejorado = list(fEulerMejorado.keys())
-        ejeXEulerMejorado = list(fEulerMejorado.values())
-        ejeTRungeKutta = list(fRungeKutta.keys())
-        ejeXRungeKutta = list(fRungeKutta.values())
-
-        tempTEuler = []
-        tempXEuler = []
-        tempTEulerMejorado = []
-        tempXEulerMejorado = []
-        tempTRungeKutta = []
-        tempXRungeKutta = []
-        primeraVez = True
-        
-        if(v.get() == 1):
-            #Simultáneo
-            for i in range(N+1):
+        try:
                 
-                if(valorEuler.get()):
-                    tempTEuler.append(ejeTEuler[i])
-                    tempXEuler.append(ejeXEuler[i])
-                if(valorEulerMejorado.get()):
-                    tempTEulerMejorado.append(ejeTEulerMejorado[i])
-                    tempXEulerMejorado.append(ejeXEulerMejorado[i])
-                if(valorRungeKutta.get()):
-                    tempTRungeKutta.append(ejeTRungeKutta[i])
-                    tempXRungeKutta.append(ejeXRungeKutta[i])
-                
-                if(valorEuler.get()):
-                    plt.scatter(tempTEuler, tempXEuler, color = "r")
-                if(valorEulerMejorado.get()):           
-                    plt.scatter(tempTEulerMejorado, tempXEulerMejorado, color = "g")
-                if(valorRungeKutta.get()):            
-                    plt.scatter(tempTRungeKutta, tempXRungeKutta, color = "b")
-                plt.grid()
-                plt.pause(0.80)
-                
-                if(valorEuler.get()):
-                    plt.plot(tempTEuler, tempXEuler, label = "Euler", color = "r",linewidth=2)
-                if(valorEulerMejorado.get()):            
-                    plt.plot(tempTEulerMejorado, tempXEulerMejorado, label = "Euler Mejorado", color = "g",linewidth=2)
-                if(valorRungeKutta.get()): 
-                    plt.plot(tempTRungeKutta, tempXRungeKutta, label = "Runge-Kutta", color = "b",linewidth=2)
-                plt.grid()
-                plt.pause(0.80)
+            fEuler = euler(float(xInicial),float(tInicial),float(tFinal),functionFix,N)
+            fEulerMejorado = eulerMejorado(float(xInicial),float(tInicial),float(tFinal),functionFix,N)
+            fRungeKutta = rungeKutta(float(xInicial),float(tInicial),float(tFinal),functionFix,N)
+
+            graficarTabla(fEuler,fEulerMejorado,fRungeKutta)
+
+            print(fEuler)
+            print(fEulerMejorado)              
+            print(fRungeKutta)
+
+            plt.title("Gráfico") 
+            plt.xlabel("t") 
+            plt.ylabel("X") 
+            ejeTEuler = list(fEuler.keys())
+            ejeXEuler = list(fEuler.values())
+            ejeTEulerMejorado = list(fEulerMejorado.keys())
+            ejeXEulerMejorado = list(fEulerMejorado.values())
+            ejeTRungeKutta = list(fRungeKutta.keys())
+            ejeXRungeKutta = list(fRungeKutta.values())
+
+            tempTEuler = []
+            tempXEuler = []
+            tempTEulerMejorado = []
+            tempXEulerMejorado = []
+            tempTRungeKutta = []
+            tempXRungeKutta = []
+            primeraVez = True
             
-                if primeraVez:
-                    plt.legend()
-                    primeraVez = False
-            
-            plt.grid()       
-            plt.show()
-
-        elif(v.get() == 2):
-            #En orden
-            if(valorEuler.get()):
+            if(v.get() == 1):
+                #Simultáneo
                 for i in range(N+1):
                     
-                    tempTEuler.append(ejeTEuler[i])
-                    tempXEuler.append(ejeXEuler[i])
+                    if(valorEuler.get()):
+                        tempTEuler.append(ejeTEuler[i])
+                        tempXEuler.append(ejeXEuler[i])
+                    if(valorEulerMejorado.get()):
+                        tempTEulerMejorado.append(ejeTEulerMejorado[i])
+                        tempXEulerMejorado.append(ejeXEulerMejorado[i])
+                    if(valorRungeKutta.get()):
+                        tempTRungeKutta.append(ejeTRungeKutta[i])
+                        tempXRungeKutta.append(ejeXRungeKutta[i])
                     
-                    plt.scatter(tempTEuler, tempXEuler, color = "r")
+                    if(valorEuler.get()):
+                        plt.scatter(tempTEuler, tempXEuler, color = "r")
+                    if(valorEulerMejorado.get()):           
+                        plt.scatter(tempTEulerMejorado, tempXEulerMejorado, color = "g")
+                    if(valorRungeKutta.get()):            
+                        plt.scatter(tempTRungeKutta, tempXRungeKutta, color = "b")
                     plt.grid()
                     plt.pause(0.80)
                     
-                    if(primeraVez):
+                    if(valorEuler.get()):
                         plt.plot(tempTEuler, tempXEuler, label = "Euler", color = "r",linewidth=2)
-                    else:
-                        plt.plot(tempTEuler, tempXEuler, label = "", color = "r",linewidth=2)
-
-                    plt.grid()
-                    plt.pause(0.80)
-                
-                    if primeraVez:
-                        plt.legend()
-                        primeraVez = False
-            
-            if(valorEulerMejorado.get()):
-                primeraVez = True
-                for i in range(N+1):
-                    
-                    tempTEulerMejorado.append(ejeTEulerMejorado[i])
-                    tempXEulerMejorado.append(ejeXEulerMejorado[i])
-                    
-                    plt.scatter(tempTEulerMejorado, tempXEulerMejorado, color = "g")
-                    plt.grid()
-                    plt.pause(0.80)
-                    if(primeraVez):
+                    if(valorEulerMejorado.get()):            
                         plt.plot(tempTEulerMejorado, tempXEulerMejorado, label = "Euler Mejorado", color = "g",linewidth=2)
-                    else:
-                        plt.plot(tempTEulerMejorado, tempXEulerMejorado, label = "", color = "g",linewidth=2)
+                    if(valorRungeKutta.get()): 
+                        plt.plot(tempTRungeKutta, tempXRungeKutta, label = "Runge-Kutta", color = "b",linewidth=2)
                     plt.grid()
                     plt.pause(0.80)
                 
                     if primeraVez:
-                        
                         plt.legend()
                         primeraVez = False
-            
-            if(valorRungeKutta.get()):
-                primeraVez = True
+                
+                plt.grid()       
+                plt.show()
+
+            elif(v.get() == 2):
+                #En orden
+                if(valorEuler.get()):
+                    for i in range(N+1):
+                        
+                        tempTEuler.append(ejeTEuler[i])
+                        tempXEuler.append(ejeXEuler[i])
+                        
+                        plt.scatter(tempTEuler, tempXEuler, color = "r")
+                        plt.grid()
+                        plt.pause(0.80)
+                        
+                        if(primeraVez):
+                            plt.plot(tempTEuler, tempXEuler, label = "Euler", color = "r",linewidth=2)
+                        else:
+                            plt.plot(tempTEuler, tempXEuler, label = "", color = "r",linewidth=2)
+
+                        plt.grid()
+                        plt.pause(0.80)
+                    
+                        if primeraVez:
+                            plt.legend()
+                            primeraVez = False
+                
+                if(valorEulerMejorado.get()):
+                    primeraVez = True
+                    for i in range(N+1):
+                        
+                        tempTEulerMejorado.append(ejeTEulerMejorado[i])
+                        tempXEulerMejorado.append(ejeXEulerMejorado[i])
+                        
+                        plt.scatter(tempTEulerMejorado, tempXEulerMejorado, color = "g")
+                        plt.grid()
+                        plt.pause(0.80)
+                        if(primeraVez):
+                            plt.plot(tempTEulerMejorado, tempXEulerMejorado, label = "Euler Mejorado", color = "g",linewidth=2)
+                        else:
+                            plt.plot(tempTEulerMejorado, tempXEulerMejorado, label = "", color = "g",linewidth=2)
+                        plt.grid()
+                        plt.pause(0.80)
+                    
+                        if primeraVez:
+                            
+                            plt.legend()
+                            primeraVez = False
+                
+                if(valorRungeKutta.get()):
+                    primeraVez = True
+                    for i in range(N+1):
+                        
+                        tempTRungeKutta.append(ejeTRungeKutta[i])
+                        tempXRungeKutta.append(ejeXRungeKutta[i])
+                        
+                        plt.scatter(tempTRungeKutta, tempXRungeKutta, color = "b")
+                        plt.grid()
+                        plt.pause(0.80)
+                        
+                        if(primeraVez):
+                            plt.plot(tempTRungeKutta, tempXRungeKutta, label = "Runge-Kutta", color = "b",linewidth=2)
+                        else:
+                            plt.plot(tempTRungeKutta, tempXRungeKutta, label = "", color = "b",linewidth=2)
+
+                        plt.grid()
+                        plt.pause(0.80)
+                    
+                        if primeraVez:
+                            plt.legend()
+                            primeraVez = False
+                plt.grid()       
+                plt.show()
+            else:
+                #Gráfico inmediato
                 for i in range(N+1):
                     
-                    tempTRungeKutta.append(ejeTRungeKutta[i])
-                    tempXRungeKutta.append(ejeXRungeKutta[i])
+                    if(valorEuler.get()):
+                        tempTEuler.append(ejeTEuler[i])
+                        tempXEuler.append(ejeXEuler[i])
+                    if(valorEulerMejorado.get()):
+                        tempTEulerMejorado.append(ejeTEulerMejorado[i])
+                        tempXEulerMejorado.append(ejeXEulerMejorado[i])
+                    if(valorRungeKutta.get()):
+                        tempTRungeKutta.append(ejeTRungeKutta[i])
+                        tempXRungeKutta.append(ejeXRungeKutta[i])
                     
-                    plt.scatter(tempTRungeKutta, tempXRungeKutta, color = "b")
+                    if(valorEuler.get()):
+                        plt.scatter(tempTEuler, tempXEuler, color = "r")
+                    if(valorEulerMejorado.get()):           
+                        plt.scatter(tempTEulerMejorado, tempXEulerMejorado, color = "g")
+                    if(valorRungeKutta.get()):            
+                        plt.scatter(tempTRungeKutta, tempXRungeKutta, color = "b")
                     plt.grid()
-                    plt.pause(0.80)
                     
-                    if(primeraVez):
+                    if(valorEuler.get()):
+                        plt.plot(tempTEuler, tempXEuler, label = "Euler", color = "r",linewidth=2)
+                    if(valorEulerMejorado.get()):            
+                        plt.plot(tempTEulerMejorado, tempXEulerMejorado, label = "Euler Mejorado", color = "g",linewidth=2)
+                    if(valorRungeKutta.get()): 
                         plt.plot(tempTRungeKutta, tempXRungeKutta, label = "Runge-Kutta", color = "b",linewidth=2)
-                    else:
-                        plt.plot(tempTRungeKutta, tempXRungeKutta, label = "", color = "b",linewidth=2)
-
                     plt.grid()
-                    plt.pause(0.80)
                 
                     if primeraVez:
                         plt.legend()
                         primeraVez = False
-            plt.grid()       
-            plt.show()
-        else:
-            #Gráfico inmediato
-            for i in range(N+1):
-                
-                if(valorEuler.get()):
-                    tempTEuler.append(ejeTEuler[i])
-                    tempXEuler.append(ejeXEuler[i])
-                if(valorEulerMejorado.get()):
-                    tempTEulerMejorado.append(ejeTEulerMejorado[i])
-                    tempXEulerMejorado.append(ejeXEulerMejorado[i])
-                if(valorRungeKutta.get()):
-                    tempTRungeKutta.append(ejeTRungeKutta[i])
-                    tempXRungeKutta.append(ejeXRungeKutta[i])
-                
-                if(valorEuler.get()):
-                    plt.scatter(tempTEuler, tempXEuler, color = "r")
-                if(valorEulerMejorado.get()):           
-                    plt.scatter(tempTEulerMejorado, tempXEulerMejorado, color = "g")
-                if(valorRungeKutta.get()):            
-                    plt.scatter(tempTRungeKutta, tempXRungeKutta, color = "b")
                 plt.grid()
-                
-                if(valorEuler.get()):
-                    plt.plot(tempTEuler, tempXEuler, label = "Euler", color = "r",linewidth=2)
-                if(valorEulerMejorado.get()):            
-                    plt.plot(tempTEulerMejorado, tempXEulerMejorado, label = "Euler Mejorado", color = "g",linewidth=2)
-                if(valorRungeKutta.get()): 
-                    plt.plot(tempTRungeKutta, tempXRungeKutta, label = "Runge-Kutta", color = "b",linewidth=2)
-                plt.grid()
+                plt.show()
+        except:
+            plt.close()
+            tables.destroy()
+            messagebox.showerror("Métodos", "Error al realizar cálculos. Verifique que la función escrita sea correcta.")
             
-                if primeraVez:
-                    plt.legend()
-                    primeraVez = False
-            plt.grid()
-            plt.show()
-              
     elif (not(valorEuler.get() or valorEulerMejorado.get() or valorRungeKutta.get())):
          messagebox.showerror("Métodos", "Debe seleccionar algún método para realizar los cálculos.")
     elif(nAndh(n.get(), hIngresada)):
