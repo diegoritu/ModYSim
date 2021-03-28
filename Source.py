@@ -207,6 +207,7 @@ def btnCalcular():
     functionFix = function.get().replace(",",".")
     hIngresada = h.get().replace(",",".")
     params = [xInicial,tInicial,tFinal]
+    cierreInesperado = False
     if(inputIsValid(params) and nValidOrhValid(n.get(), hIngresada) and isMathFunction(functionFix) and not nAndh(n.get(), hIngresada) and (valorEuler.get() or valorEulerMejorado.get() or valorRungeKutta.get())):
         N = n.get()
         if(n.get() != ""):
@@ -268,6 +269,7 @@ def btnCalcular():
                     if(valorRungeKutta.get()):            
                         plt.scatter(tempTRungeKutta, tempXRungeKutta, color = "b")
                     plt.grid()
+                    cierreInesperado = True
                     plt.pause(0.80)
                     
                     if(valorEuler.get()):
@@ -297,6 +299,7 @@ def btnCalcular():
                         
                         plt.scatter(tempTEuler, tempXEuler, color = "r")
                         plt.grid()
+                        cierreInesperado = True
                         plt.pause(0.80)
                         
                         if(primeraVez):
@@ -319,6 +322,7 @@ def btnCalcular():
                         tempXEulerMejorado.append(ejeXEulerMejorado[i])
                         
                         plt.scatter(tempTEulerMejorado, tempXEulerMejorado, color = "g")
+                        cierreInesperado = True
                         plt.grid()
                         plt.pause(0.80)
                         if(primeraVez):
@@ -342,6 +346,7 @@ def btnCalcular():
                         
                         plt.scatter(tempTRungeKutta, tempXRungeKutta, color = "b")
                         plt.grid()
+                        cierreInesperado = True
                         plt.pause(0.80)
                         
                         if(primeraVez):
@@ -379,7 +384,7 @@ def btnCalcular():
                     if(valorRungeKutta.get()):            
                         plt.scatter(tempTRungeKutta, tempXRungeKutta, color = "b")
                     plt.grid()
-                    
+                    cierreInesperado = True
                     if(valorEuler.get()):
                         plt.plot(tempTEuler, tempXEuler, label = "Euler", color = "r",linewidth=2)
                     if(valorEulerMejorado.get()):            
@@ -394,9 +399,12 @@ def btnCalcular():
                 plt.grid()
                 plt.show()
         except:
-            plt.close()
-            tables.destroy()
-            messagebox.showerror("Métodos", "Error al realizar cálculos. Verifique que la función escrita sea correcta.")
+            if(cierreInesperado):
+                pass
+            else:
+                plt.close()
+                tables.destroy()
+                messagebox.showerror("Métodos", "Error al realizar cálculos. Verifique que la función escrita sea correcta.")
             
     elif (not(valorEuler.get() or valorEulerMejorado.get() or valorRungeKutta.get())):
          messagebox.showerror("Métodos", "Debe seleccionar algún método para realizar los cálculos.")
