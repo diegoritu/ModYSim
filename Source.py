@@ -205,6 +205,7 @@ def btnCalcular():
     tInicial = t0.get().replace(",",".")
     tFinal = tf.get().replace(",",".")
     functionFix = function.get().replace(",",".")
+    functionFix = functionFix.lower()
     hIngresada = h.get().replace(",",".")
     params = [xInicial,tInicial,tFinal]
     cierreInesperado = False
@@ -448,7 +449,7 @@ def euler(x0,t0,tf,function,N):
 
         return fResult
     except:
-        messagebox.showerror("Métodos", "Error inesperado.")
+        pass
 #Algoritmo Euler Mejorado
 def eulerMejorado(x0,t0,tf,function,N):    
     try:
@@ -472,7 +473,7 @@ def eulerMejorado(x0,t0,tf,function,N):
           
         return fResult
     except:
-        messagebox.showerror("Métodos", "Error inesperado.")
+        pass
 #Algoritmo Runge Kutta
 def rungeKutta(x0,t0,tf,function,N):    
     try:
@@ -497,7 +498,7 @@ def rungeKutta(x0,t0,tf,function,N):
             x = x + (1/6) * (p1+2*p2+2*p3+p4)
         return fResult
     except:
-        messagebox.showerror("Métodos", "Error inesperado.")
+        pass
 
 
 
