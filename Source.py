@@ -8,7 +8,6 @@ import sympy
 import re
 from matplotlib import pyplot as plt 
 
-
 root = Tk()
 appWidth = 960
 appHeight= 410
@@ -169,6 +168,32 @@ def isMathFunction(function):
         return False
     return True
 
+def btnManual():
+    manual = Toplevel(root)
+    manual.title('Manual')
+    manual.geometry('930x400')
+    manual.resizable(0,0)
+    manual.iconbitmap('Metodos.ico')
+    
+    mainframe = Frame(manual)
+    mainframe.pack(fill=BOTH,expand=1)
+    
+    canvas = Canvas(mainframe)
+    canvas.pack(side=LEFT, fill=BOTH, expand=1)
+
+    scrollbar = Scrollbar(mainframe,orient=VERTICAL, command=canvas.yview)
+    scrollbar.pack(side=RIGHT, fill=Y)
+
+    canvas.configure(yscrollcommand=scrollbar.set)
+    canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+    secondFrame = Frame(canvas)
+    canvas.create_window((0,0), window=secondFrame, anchor="nw")
+
+    Label(secondFrame,text="Operaciones Posibles", font = ('Lucida Bright',25,'underline'), pady=20, padx=40).grid(row = 0, column=0)
+    Label(secondFrame,text="Suma: +\n Resta: -\n Multiplicación: *\n División: /\n Raíz cuadrada: sqrt()\n Raíz cúbica: cbrt()\n Potencia: x**n . Devuelve x elevado a la n.\n Seno: sin()\n Arco seno: asin()\n Coseno: cos()\n Arco coseno: acos()\n Tangente: tan()\n Arco tangente: atan()\n Cotangente: cot()\n Arco cotangente: acot()\n Secante: sec()\n Arco secante: asec()\n Cosecante: csc()\n Arco cosecante: acsc()\n Funciones seno, coseno, tangente, cotangente, secante y cosecante hiperbólicas:\n Se escriben igual que las definiciones originales, con una “h” antes de abrir los paréntesis.\n Funciones arco seno, coseno, tangente, cotangente, secante y cosecante hiperbólicas: Se escriben igual que las definiciones originales,\n con una “a” al principio. Función exponencial (e): exp() . Dentro del paréntesis debe indicarse la potencia de e.\n Logaritmo natural: ln()\n Logaritmo en bases distinta a e: ln(x,b)", font = ('Lucida Bright',10), pady=5, padx=15, anchor=tkinter.W).grid(row=1,column=0)
+
+
 def btnCalcular():  
     try:
         tables.destroy()
@@ -258,7 +283,8 @@ def btnCalcular():
                         plt.legend()
                         primeraVez = False
                 
-                plt.grid()       
+                plt.grid()
+                     
                 plt.show()
 
             elif(v.get() == 2):
@@ -329,7 +355,8 @@ def btnCalcular():
                         if primeraVez:
                             plt.legend()
                             primeraVez = False
-                plt.grid()       
+                plt.grid() 
+                    
                 plt.show()
             else:
                 #Gráfico inmediato
@@ -365,6 +392,9 @@ def btnCalcular():
                         plt.legend()
                         primeraVez = False
                 plt.grid()
+                win = plt.gcf().canvas.manager.window
+                win.setWindowFlags(win.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+                win.setWindowFlags(win.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
                 plt.show()
         except:
             plt.close()
@@ -531,5 +561,7 @@ h = Entry(parameters,width=20,borderwidth=5,font = ('Lucida Bright',13))
 h.grid(row=4,column=3, pady=5)
 
 Button(parameters,text="Calcular", font = ('Lucida Bright',15),background="#A2EFAC", activeforeground="white", activebackground="#85C38D",command=btnCalcular).grid(row=5,column=4)
+
+Button(parameters,text="Operaciones", font = ('Lucida Bright',15),background="#AAC4AD", activeforeground="white", activebackground="#85C38D",command=btnManual).grid(row=5,column=0)
 
 root.mainloop()
