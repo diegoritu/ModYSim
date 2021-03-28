@@ -404,7 +404,7 @@ def btnCalcular():
     elif (not(valorEuler.get() or valorEulerMejorado.get() or valorRungeKutta.get())):
          messagebox.showerror("Métodos", "Debe seleccionar algún método para realizar los cálculos.")
     elif(nAndh(n.get(), hIngresada)):
-        if(n.get() != "" and h.get() != ""):
+        if(n.get() == "" and h.get() == ""):
             messagebox.showerror("Métodos", "Debe ingresar el valor de N o h.")
         else:
             messagebox.showerror("Métodos", "No puede ingresar tanto N como h. Debe elegir uno de los 2 para ingresar.")
