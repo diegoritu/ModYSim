@@ -392,9 +392,6 @@ def btnCalcular():
                         plt.legend()
                         primeraVez = False
                 plt.grid()
-                win = plt.gcf().canvas.manager.window
-                win.setWindowFlags(win.windowFlags() | QtCore.Qt.CustomizeWindowHint)
-                win.setWindowFlags(win.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
                 plt.show()
         except:
             plt.close()
