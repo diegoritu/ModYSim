@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "Source.py", line 23, in <module>
+  File "tkinter\__init__.pyc", line 2073, in wm_iconbitmap
+_tkinter.TclError: bitmap "Metodos.ico" not defined
