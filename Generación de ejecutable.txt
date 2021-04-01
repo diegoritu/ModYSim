@@ -1,0 +1,3 @@
+Para generar el ejecutable, ejecutar el siguiente comando en la carpeta que estén alojados setup.py y Source.py:
+
+> python setup.py py2exe --excludes=matplotlib.tests
